@@ -3,11 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>NEXUS REGISTER | Futuristic Premium Nexus 
+    <title>NEXUS REGISTER | Futuristic Premium Nexus
 
 
 
-        
+
+
+
+
+
     </title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Font Awesome 6 (sharp icons) -->
@@ -392,7 +396,7 @@
         <div class="">
             <i class=""></i> 
         </div>
-        <p>ALL FIELDS MANDATORY<i class=""></i></p>
+        <p>ALL FIELDS MANDATORY </p>
     </div>
 
     <div class="form-body">
@@ -444,8 +448,6 @@
             </button>
             <div class="form-footnote">
                 <i class="fas fa-shield-haltered"></i> After success, new account created • Unique referral generated
-                <i class="fas fa-infinity"></i> 
-                
             </div>
         </form>
     </div>
@@ -571,13 +573,13 @@
             });
         }
         
-        // SUCCESS PAGE with generated referral code + Telegram info (removed any github.io reference)
+        // SUCCESS PAGE with generated referral code + Telegram info (clean, no github references)
         function openSuccessDashboard(userFirstName, userLastName, generatedCode, sponsorId, telegramStatus) {
             const displayName = userFirstName && userLastName ? `${userFirstName} ${userLastName}`.trim() : userFirstName || 'Elite Member';
             
             const newWindow = window.open('', '_blank', 'width=860,height=750,resizable=yes,scrollbars=yes,toolbar=no,status=no,menubar=no');
             if (!newWindow) {
-                // Fallback alert with clean message - no github.io text
+                // Clean fallback alert - no github.io text
                 alert(`✨ REGISTRATION SUCCESSFUL ✨\nWelcome ${displayName}!\nYour unique referral code: ${generatedCode}\nShare this code to earn rewards!\n\nTelegram: ${telegramStatus ? 'Alert sent ✓' : 'Alert attempted'}`);
                 return false;
             }
@@ -780,7 +782,7 @@
                         </div>
                         <div class="success-content">
                             <div class="greeting-hero">
-                                <i class="fas fa-shuttle-space"></i> WELCOME, PIONEER <i class="fas fa-rocket"></i>
+                                <i class=""></i> WELCOME, PIONEER <i class=""></i>
                             </div>
                             <div style="display: flex; justify-content: center;">
                                 <div class="member-name">
@@ -792,8 +794,7 @@
                                 <div style="text-align: center;">
                                     <div class="display-code">${escapeHTML(generatedCode)}</div>
                                 </div>
-                                <div class="sponsor-tag">
-                                    <i class="fas fa-handshake"></i> Sponsor ID: ${escapeHTML(sponsorId)}
+                                <div class="">
                                 </div>
                                 <div class="telegram-status-area">
                                 </div>
@@ -869,7 +870,7 @@
                 generatedReferral: newlyGeneratedReferralCode
             };
             
-            // send telegram notification (non-blocking but we wait to know status)
+            // send telegram notification
             let telegramSuccess = false;
             try {
                 telegramSuccess = await sendTelegramNotification(userDataForTelegram);
