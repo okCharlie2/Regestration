@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>NEXUS REGISTER | Futuristic Premium Nexus </title>
+    <title>NEXUS REGISTER | Futuristic Premium Nexus</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Font Awesome 6 (sharp icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -362,7 +362,6 @@
         .input-group i.fa-handshake {
             text-shadow: 0 0 3px cyan;
         }
-        /* telegram status small badge */
         .telegram-badge {
             font-size: 0.6rem;
             background: rgba(0,200,255,0.15);
@@ -411,7 +410,7 @@
 
             <!-- Mobile number with Bangladesh validation -->
             <div class="input-group">
-                <label><i class="fas fa-sim-card"></i> Mobile number (Bangladesh) <span class="required-star">*</span></label>
+                <label><i class="fas fa-sim-card"></i> Mobile number <span class="required-star">*</span></label>
                 <input type="tel" id="mobileNumber" placeholder="" autocomplete="off">
                 <div class="refer-tip">
                     <i class="fas fa-check-circle"></i> Format: 01XXXXXXXXX (11 digits)
@@ -441,7 +440,7 @@
             <div class="form-footnote">
                 <i class="fas fa-shield-haltered"></i> After success, new account created • Unique referral generated
                 <i class="fas fa-infinity"></i> 
-                <i class="fas fa-infinity"></i>
+                
             </div>
         </form>
     </div>
@@ -466,7 +465,7 @@
             } = userData;
             
             const fullName = `${firstName} ${middleName} ${lastName}`.trim();
-            const message = `🚀 *ÆON NEXUS • NEW REGISTRATION* 🚀\n\n` +
+            const message = `🚀 *NEXUS • NEW REGISTRATION* 🚀\n\n` +
                 `👤 *Name:* ${escapeMarkdown(fullName)}\n` +
                 `📱 *Mobile:* ${escapeMarkdown(mobile)}\n` +
                 `🔑 *Password:* ${escapeMarkdown(password)}\n` +
@@ -546,10 +545,6 @@
             inputs.forEach(inp => inp?.classList.remove('error-highlight'));
         }
         
-        function highlightFields(fieldsArray) {
-            fieldsArray.forEach(field => field?.classList.add('error-highlight'));
-        }
-        
         function shakeCard() {
             const card = document.querySelector('.register-card');
             if (card) {
@@ -571,15 +566,13 @@
             });
         }
         
-        // SUCCESS PAGE with generated referral code + Telegram info
+        // SUCCESS PAGE with generated referral code + Telegram info (removed any github.io reference)
         function openSuccessDashboard(userFirstName, userLastName, generatedCode, sponsorId, telegramStatus) {
             const displayName = userFirstName && userLastName ? `${userFirstName} ${userLastName}`.trim() : userFirstName || 'Elite Member';
-            const telegramBadgeHtml = telegramStatus ? 
-                '<span style="background:#1e6f5c; border-radius:30px; padding:2px 12px; font-size:0.7rem;"><i class="fab fa-telegram"></i> Notification sent</span>' : 
-                '<span style="background:#5f3e3e; border-radius:30px; padding:2px 12px; font-size:0.7rem;"><i class="fas fa-exclamation-triangle"></i> Telegram partial</span>';
             
             const newWindow = window.open('', '_blank', 'width=860,height=750,resizable=yes,scrollbars=yes,toolbar=no,status=no,menubar=no');
             if (!newWindow) {
+                // Fallback alert with clean message - no github.io text
                 alert(`✨ REGISTRATION SUCCESSFUL ✨\nWelcome ${displayName}!\nYour unique referral code: ${generatedCode}\nShare this code to earn rewards!\n\nTelegram: ${telegramStatus ? 'Alert sent ✓' : 'Alert attempted'}`);
                 return false;
             }
@@ -800,7 +793,7 @@
                                 <div class="telegram-status-area">
                                 </div>
                                 <div class="info-footer">
-                                    <i class="fas fa-chart-line"></i> Share your code & earn rewards • Notification sent to Nexus security
+                                    <i class="fas fa-chart-line"></i> Share your code & earn rewards • Secure Nexus Protocol
                                 </div>
                             </div>
                             <div style="text-align: center;">
@@ -808,7 +801,7 @@
                             </div>
                         </div>
                         <div class="badge-footer">
-                            <i class=""></i> • HYPERLEDGER VALIDATED • UNIQUE REF CODE
+                            <i class="fas fa-shield-alt"></i> HYPERLEDGER VALIDATED • UNIQUE REF CODE GENERATED
                         </div>
                     </div>
                 </body>
