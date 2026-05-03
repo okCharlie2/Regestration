@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Nexus Register | Premium Membership</title>
-    <!-- Google Fonts: Plus Jakarta Sans for modern premium look -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
-    <!-- Font Awesome 6 (free icons) -->
+    <title>ÆON Register | Futuristic Premium Nexus</title>
+    <!-- Google Fonts: Inter + Space Grotesk for modern cyber feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Font Awesome 6 (sharp icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -16,18 +16,18 @@
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
-            background: radial-gradient(circle at 10% 30%, #0b1120, #030614);
+            font-family: 'Inter', 'Space Grotesk', system-ui, sans-serif;
+            background: #03050c;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem 1.5rem;
+            padding: 1.8rem;
             position: relative;
             overflow-x: hidden;
         }
 
-        /* animated grain & ambient light */
+        /* animated cyber grid + orbs */
         body::before {
             content: "";
             position: fixed;
@@ -35,7 +35,10 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(ellipse at 40% 50%, rgba(120, 80, 200, 0.12), transparent 70%);
+            background-image: 
+                linear-gradient(rgba(20, 120, 220, 0.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(20, 120, 220, 0.08) 1px, transparent 1px);
+            background-size: 45px 45px;
             pointer-events: none;
             z-index: 0;
         }
@@ -43,77 +46,120 @@
         body::after {
             content: "";
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(45deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 2px, transparent 2px, transparent 8px);
+            top: -50%;
+            left: -20%;
+            width: 140%;
+            height: 140%;
+            background: radial-gradient(circle at 30% 20%, rgba(0, 255, 255, 0.08), rgba(10, 20, 60, 0) 70%);
             pointer-events: none;
+            animation: driftGlow 18s infinite alternate;
+            z-index: 0;
         }
 
-        /* premium card container */
+        @keyframes driftGlow {
+            0% { transform: translate(0%, 0%) scale(1); opacity: 0.4; }
+            100% { transform: translate(4%, 3%) scale(1.2); opacity: 0.7; }
+        }
+
+        /* main premium card — ultra glassmorph + animated border flux */
         .register-card {
-            max-width: 800px;
+            max-width: 840px;
             width: 100%;
-            background: rgba(18, 25, 45, 0.75);
-            backdrop-filter: blur(16px);
-            border-radius: 2.5rem;
-            box-shadow: 0 30px 50px -20px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08) inset, 0 0 20px rgba(0, 255, 255, 0.05);
+            background: rgba(8, 18, 32, 0.6);
+            backdrop-filter: blur(18px);
+            border-radius: 3rem;
+            box-shadow: 0 35px 55px -20px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(70, 180, 255, 0.25) inset, 0 0 25px rgba(0, 255, 255, 0.1);
             overflow: hidden;
-            transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1), box-shadow 0.4s;
-            z-index: 2;
+            transition: transform 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1), box-shadow 0.4s;
+            position: relative;
+            z-index: 3;
+            border: 1px solid rgba(80, 170, 255, 0.35);
         }
 
         .register-card:hover {
-            transform: translateY(-6px);
-            box-shadow: 0 45px 60px -24px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.12) inset;
+            transform: translateY(-8px);
+            box-shadow: 0 45px 65px -20px black, 0 0 0 1.5px rgba(100, 200, 255, 0.5) inset, 0 0 30px rgba(0, 210, 255, 0.2);
+            border-color: rgba(0, 210, 255, 0.6);
         }
 
-        /* header with premium accent */
+        /* animated border gradient glow */
+        .register-card::before {
+            content: "";
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(125deg, #00ccff, #5f3eff, #ff3e9d, #00ccff);
+            border-radius: 3rem;
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.5s;
+            filter: blur(18px);
+        }
+
+        .register-card:hover::before {
+            opacity: 0.3;
+        }
+
+        /* header area with neon flair */
         .form-header {
-            background: rgba(8, 15, 30, 0.6);
-            padding: 2rem 2rem 1.8rem;
+            background: rgba(2, 12, 24, 0.65);
+            padding: 2.2rem 2rem 1.8rem;
             text-align: center;
-            border-bottom: 1px solid rgba(80, 140, 210, 0.3);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.3);
             position: relative;
         }
 
         .form-header h1 {
-            font-size: 2.1rem;
-            font-weight: 700;
-            background: linear-gradient(135deg, #FFFFFF, #B9E0FF, #7AA9FF);
+            font-size: 2.3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #FFFFFF, #A0E7FF, #6E9EFF);
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            letter-spacing: -0.3px;
+            letter-spacing: -0.5px;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 14px;
+            text-transform: uppercase;
         }
 
         .form-header h1 i {
             background: none;
-            background-clip: unset;
-            -webkit-background-clip: unset;
-            color: #7AA9FF;
-            font-size: 1.9rem;
+            color: #3fe0ff;
+            text-shadow: 0 0 6px #0af;
+            font-size: 2rem;
+        }
+
+        .badge-mandatory {
+            display: inline-block;
+            background: rgba(0, 255, 255, 0.12);
+            border-radius: 60px;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            color: #7bc5ff;
+            margin-top: 12px;
+            backdrop-filter: blur(4px);
+            border: 0.5px solid rgba(0, 210, 255, 0.4);
         }
 
         .form-header p {
-            color: #9BB5D4;
-            font-weight: 400;
-            margin-top: 0.6rem;
-            font-size: 0.9rem;
-            letter-spacing: 0.2px;
+            color: #b3d6ff;
+            font-weight: 500;
+            margin-top: 0.5rem;
+            font-size: 0.85rem;
         }
 
-        /* form body premium spacing */
+        /* form body new design */
         .form-body {
-            padding: 2.2rem 2rem 2rem 2rem;
+            padding: 2.2rem 2rem 2rem;
         }
 
         .input-group {
-            margin-bottom: 1.4rem;
+            margin-bottom: 1.5rem;
             display: flex;
             flex-direction: column;
         }
@@ -122,22 +168,22 @@
             display: flex;
             flex-wrap: wrap;
             gap: 1.2rem;
-            margin-bottom: 0.4rem;
+            margin-bottom: 0.5rem;
         }
 
         .input-row .input-group {
             flex: 1;
-            margin-bottom: 0.6rem;
+            margin-bottom: 0.7rem;
         }
 
-        /* modern label design */
+        /* modern glowing label */
         label {
-            font-weight: 600;
-            font-size: 0.75rem;
+            font-weight: 700;
+            font-size: 0.72rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #C7E2FF;
-            margin-bottom: 0.6rem;
+            letter-spacing: 1.2px;
+            color: #c7e5ff;
+            margin-bottom: 0.65rem;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -145,143 +191,177 @@
 
         label i {
             font-size: 0.85rem;
-            color: #5F8FDD;
-            width: 18px;
+            color: #3ac0ff;
+            filter: drop-shadow(0 0 3px #00a6ff);
+            width: 20px;
         }
 
         .required-star {
-            color: #FF7A7A;
+            color: #ff5f7e;
             font-size: 0.9rem;
-            margin-left: 2px;
+            margin-left: 3px;
         }
 
-        /* premium input fields */
+        /* premium inputs — neon glass */
         input {
             width: 100%;
-            padding: 0.9rem 1.1rem;
+            padding: 0.9rem 1.2rem;
             font-size: 0.95rem;
             font-weight: 500;
-            background: rgba(12, 20, 35, 0.7);
-            border: 1.5px solid rgba(70, 110, 160, 0.5);
-            border-radius: 1.2rem;
-            color: #F0F4FF;
+            background: rgba(2, 12, 26, 0.65);
+            border: 1.5px solid rgba(40, 130, 210, 0.6);
+            border-radius: 1.5rem;
+            color: #f0fcff;
             transition: all 0.25s ease;
             outline: none;
             font-family: 'Inter', monospace;
-            backdrop-filter: blur(4px);
+            backdrop-filter: blur(5px);
+            letter-spacing: 0.2px;
         }
 
         input:focus {
-            border-color: #6C9EFF;
-            background: rgba(20, 32, 52, 0.8);
-            box-shadow: 0 0 0 4px rgba(108, 158, 255, 0.2), 0 4px 12px rgba(0,0,0,0.1);
+            border-color: #40e0ff;
+            background: rgba(5, 20, 40, 0.85);
+            box-shadow: 0 0 0 4px rgba(64, 224, 255, 0.2), 0 6px 16px rgba(0, 0, 0, 0.2);
             transform: scale(1.01);
         }
 
         input::placeholder {
-            color: #5F7492;
+            color: #596f92;
             font-weight: 400;
             font-size: 0.85rem;
+            letter-spacing: 0.2px;
         }
 
-        /* error highlight style — premium red glow */
+        /* error highlight — futuristic glitch */
         input.error-highlight {
-            border-color: #FF5C6E !important;
-            background: rgba(255, 80, 100, 0.08) !important;
-            box-shadow: 0 0 0 3px rgba(255, 70, 90, 0.25) !important;
+            border-color: #ff4d6d !important;
+            background: rgba(255, 60, 90, 0.12) !important;
+            box-shadow: 0 0 0 3px rgba(255, 70, 100, 0.4), 0 0 12px rgba(255, 0, 55, 0.2) !important;
         }
 
-        /* button premium design */
+        /* cta button — advanced cyber */
         .btn-register {
-            background: linear-gradient(105deg, #2C4B8C, #1E3A6F);
+            background: linear-gradient(95deg, #1a3f72, #0f2a4e);
             border: none;
-            padding: 1rem 1.6rem;
-            font-size: 1rem;
-            font-weight: 700;
-            letter-spacing: 0.8px;
-            border-radius: 2.8rem;
+            padding: 1.1rem 1.8rem;
+            font-size: 1.05rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            border-radius: 3rem;
             width: 100%;
             color: white;
             cursor: pointer;
-            margin-top: 0.8rem;
-            transition: all 0.3s;
+            margin-top: 1rem;
+            transition: all 0.35s;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 12px;
-            box-shadow: 0 10px 18px -8px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.1) inset;
-            font-family: 'Inter', sans-serif;
+            gap: 14px;
+            box-shadow: 0 7px 14px -5px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(80, 180, 255, 0.25) inset;
+            font-family: 'Space Grotesk', monospace;
+            position: relative;
+            overflow: hidden;
         }
 
-        .btn-register i {
-            font-size: 1.1rem;
-            transition: transform 0.2s;
+        .btn-register::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 200, 255, 0.25), transparent);
+            transition: left 0.6s;
+        }
+
+        .btn-register:hover::before {
+            left: 100%;
         }
 
         .btn-register:hover {
-            background: linear-gradient(105deg, #3E61A5, #254878);
-            transform: translateY(-2px);
-            box-shadow: 0 18px 28px -12px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(95deg, #275d9e, #153e68);
+            transform: translateY(-3px);
+            box-shadow: 0 20px 30px -12px rgba(0, 120, 210, 0.4);
+            letter-spacing: 2px;
         }
 
         .btn-register:active {
-            transform: translateY(1px);
+            transform: translateY(2px);
         }
 
-        /* footnote premium style */
+        .btn-register i {
+            font-size: 1.15rem;
+            transition: transform 0.2s;
+        }
+
+        .btn-register:hover i {
+            transform: translateX(4px);
+        }
+
+        /* premium footnote */
         .form-footnote {
-            font-size: 0.7rem;
+            font-size: 0.68rem;
             text-align: center;
-            color: #8AA6D0;
-            margin-top: 1.8rem;
-            border-top: 1px solid rgba(90, 125, 170, 0.3);
+            color: #8cb0da;
+            margin-top: 2rem;
+            border-top: 1px solid rgba(0, 170, 255, 0.3);
             padding-top: 1.2rem;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 10px;
+            backdrop-filter: blur(4px);
+        }
+
+        .form-footnote i {
+            color: #2dc4ff;
+        }
+
+        /* referrer info tip */
+        .refer-tip {
+            font-size: 0.65rem;
+            color: #86b4e6;
+            margin-top: 6px;
+            margin-left: 10px;
+            display: flex;
+            align-items: center;
             gap: 6px;
         }
 
-        /* responsive behaviour */
-        @media (max-width: 640px) {
+        /* responsive */
+        @media (max-width: 660px) {
             .form-body {
                 padding: 1.5rem;
             }
             .input-row {
                 flex-direction: column;
-                gap: 0.2rem;
+                gap: 0rem;
             }
             .form-header h1 {
                 font-size: 1.7rem;
             }
+            .register-card {
+                border-radius: 2rem;
+            }
         }
 
-        /* shake animation (premium) */
+        /* shake animation premium */
         .alert-shake {
-            animation: shakeGlow 0.4s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+            animation: shakeGlow 0.45s cubic-bezier(0.25, 0.1, 0.2, 1) both;
         }
 
         @keyframes shakeGlow {
-            0% { transform: translateX(0); box-shadow: 0 20px 35px -10px rgba(0,0,0,0.5);}
-            20% { transform: translateX(-6px); box-shadow: 0 20px 35px -10px rgba(255,70,70,0.2);}
-            40% { transform: translateX(6px);}
-            60% { transform: translateX(-3px);}
-            80% { transform: translateX(2px);}
+            0% { transform: translateX(0); box-shadow: 0 20px 35px -10px rgba(0,0,0,0.6);}
+            25% { transform: translateX(-7px); box-shadow: 0 20px 35px -10px rgba(255,70,100,0.3);}
+            50% { transform: translateX(7px);}
+            75% { transform: translateX(-3px);}
             100% { transform: translateX(0);}
         }
 
-        /* extra ambient glow for card */
-        .register-card::before {
-            content: "";
-            position: absolute;
-            top: -30%;
-            left: -20%;
-            width: 150%;
-            height: 150%;
-            background: radial-gradient(ellipse at center, rgba(80, 140, 255, 0.08), transparent 70%);
-            pointer-events: none;
-            z-index: -1;
-            border-radius: 50%;
+        /* custom stylish spacing for reference field */
+        .input-group i.fa-handshake {
+            text-shadow: 0 0 3px cyan;
         }
     </style>
 </head>
@@ -290,60 +370,63 @@
 <div class="register-card">
     <div class="form-header">
         <h1>
-            <i class=""></i> 
-            REGISTRATION
-            <i class=""></i>
+            <i class="fas fa-bolt"></i> 
+            NEXUS REGISTER
+            <i class="fas fa-crown"></i>
         </h1>
-        <p>All Fields Mandatory</p>
+        <div class="badge-mandatory">
+            <i class="fas fa-asterisk"></i> ALL FIELDS MANDATORY • SECURE TIER
+        </div>
+        <p>Premium membership • Encrypted onboarding</p>
     </div>
 
     <div class="form-body">
         <form id="registrationForm" action="javascript:void(0);" method="post" novalidate>
-            <!-- Full name row: First, Middle, Last with modern icons inside labels -->
+            <!-- Full name row: first, middle, last with premium icon labels -->
             <div class="input-row">
                 <div class="input-group">
-                    <label><i class="fas fa-user-pen"></i> First name <span class="required-star">*</span></label>
-                    <input type="text" id="firstName" placeholder="" autocomplete="off">
+                    <label><i class="fas fa-user-astronaut"></i> First name <span class="required-star">*</span></label>
+                    <input type="text" id="firstName" placeholder="e.g., Orion" autocomplete="off">
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-user-tag"></i> Middle name <span class="required-star">*</span></label>
-                    <input type="text" id="middleName" placeholder="" autocomplete="off">
+                    <label><i class="fas fa-gem"></i> Middle name <span class="required-star">*</span></label>
+                    <input type="text" id="middleName" placeholder="e.g., Nova" autocomplete="off">
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-signature"></i> Last name <span class="required-star">*</span></label>
-                    <input type="text" id="lastName" placeholder="" autocomplete="off">
+                    <label><i class="fas fa-feather-alt"></i> Last name <span class="required-star">*</span></label>
+                    <input type="text" id="lastName" placeholder="e.g., Sterling" autocomplete="off">
                 </div>
             </div>
 
-            <!-- Mobile number with phone icon -->
+            <!-- Mobile number with updated modern placeholder -->
             <div class="input-group">
-                <label><i class="fas fa-mobile-alt"></i> Mobile number <span class="required-star">*</span></label>
-                <input type="tel" id="mobileNumber" placeholder="" autocomplete="off">
+                <label><i class="fas fa-sim-card"></i> Mobile number <span class="required-star">*</span></label>
+                <input type="tel" id="mobileNumber" placeholder="e.g., 9876543210 (7-15 digits)" autocomplete="off">
             </div>
 
-            <!-- Password with lock icon -->
+            <!-- Password field -->
             <div class="input-group">
-                <label><i class="fas fa-lock"></i> Password <span class="required-star">*</span></label>
-                <input type="password" id="password" placeholder="" autocomplete="new-password">
+                <label><i class="fas fa-key"></i> Password <span class="required-star">*</span></label>
+                <input type="password" id="password" placeholder="minimum 4 characters" autocomplete="new-password">
             </div>
 
-            <!-- Reffer number (sponsor code) -->
+            <!-- Referral / Sponsor code field (mandatory) with unique tooltip -->
             <div class="input-group">
                 <label><i class="fas fa-handshake"></i> Reffer number <span class="required-star">*</span></label>
                 <input type="text" id="referralNumber" placeholder="Enter sponsor / referral code" autocomplete="off">
-                <div style="font-size: 0.65rem; color:#8AAAD5; margin-top: 6px; margin-left: 8px;">
-                    <i class="fas fa-info-circle"></i> Required field — any valid code works
+                <div class="refer-tip">
+                    <i class="fas fa-qrcode"></i> Required field — any valid code works
                 </div>
             </div>
 
-            <!-- registration action button -->
+            <!-- registration action super button -->
             <button type="button" id="registerBtn" class="btn-register">
-                <i class="fas fa-check-circle"></i> REGESTRATION
-                <i class="fas fa-arrow-right"></i>
+                <i class="fas fa-dice-d6"></i> REGESTRATION
+                <i class="fas fa-arrow-right-to-bracket"></i>
             </button>
             <div class="form-footnote">
-                <i class="fas fa-shield-alt"></i> After success, new account created
-                <i class="fas fa-star-of-life"></i>
+                <i class="fas fa-shield-haltered"></i> After success, new account created
+                <i class="fas fa-infinity"></i>
             </div>
         </form>
     </div>
@@ -351,7 +434,7 @@
 
 <script>
     (function() {
-        // DOM elements
+        // DOM elements (IDs stay original for full compatibility)
         const firstNameInput = document.getElementById('firstName');
         const middleNameInput = document.getElementById('middleName');
         const lastNameInput = document.getElementById('lastName');
@@ -360,45 +443,45 @@
         const referralInput = document.getElementById('referralNumber');
         const registerButton = document.getElementById('registerBtn');
 
-        // Helper: remove all error highlights
+        // Helper: remove error highlights from all fields
         function removeAllHighlights() {
             const inputs = [firstNameInput, middleNameInput, lastNameInput, mobileInput, passwordInput, referralInput];
             inputs.forEach(inp => inp?.classList.remove('error-highlight'));
         }
 
-        // highlight specific fields
+        // highlight specific fields that are invalid
         function highlightFields(fieldsArray) {
             fieldsArray.forEach(field => field?.classList.add('error-highlight'));
         }
 
-        // shake card for visual alert
+        // shake card for premium alert effect
         function shakeCard() {
             const card = document.querySelector('.register-card');
             if (card) {
                 card.classList.add('alert-shake');
-                setTimeout(() => card.classList.remove('alert-shake'), 500);
+                setTimeout(() => card.classList.remove('alert-shake'), 550);
             }
         }
 
-        // validate mobile number: digits only, length between 7 and 15
+        // mobile validation: digits only, length 7-15
         function isValidMobile(mobile) {
             if (!mobile) return false;
             const digitsOnly = mobile.replace(/\s/g, '');
             return /^[0-9]{7,15}$/.test(digitsOnly);
         }
 
-        // generate random referral code (alphanumeric uppercase + digits) length 7, e.g., "67H5G75"
+        // generate strong random referral code (alphanumeric 7 chars, premium style)
         function generateRandomReferralCode() {
-            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let code = '';
             for (let i = 0; i < 7; i++) {
-                const randIdx = Math.floor(Math.random() * characters.length);
-                code += characters[randIdx];
+                const randIndex = Math.floor(Math.random() * chars.length);
+                code += chars[randIndex];
             }
             return code;
         }
 
-        // escape HTML to avoid injection on new page
+        // simple escapeHTML to avoid XSS on congratulations page
         function escapeHTML(str) {
             if (!str) return '';
             return str.replace(/[&<>]/g, function(m) {
@@ -409,12 +492,12 @@
             });
         }
 
-        // open new premium congratulations page with random referral code
+        // premium congratulations page with futuristic design & glowing referral code
         function openCongratsPage(userFirstName, userLastName, randomCode) {
-            const displayName = userFirstName ? `${userFirstName} ${userLastName || ''}`.trim() : 'Valued Member';
+            const displayName = userFirstName ? `${userFirstName} ${userLastName || ''}`.trim() : 'Elite Member';
             const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
             
-            const newWindow = window.open('', '_blank', 'width=700,height=620,resizable=yes,scrollbars=yes,toolbar=no,status=no');
+            const newWindow = window.open('', '_blank', 'width=780,height=660,resizable=yes,scrollbars=yes,toolbar=no,status=no');
             if (!newWindow) {
                 alert("⚠️ Pop-up blocked! Please allow pop-ups for this site.\n\n✨ Your unique referral code: " + randomCode);
                 return false;
@@ -426,161 +509,172 @@
                 <head>
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>✨ Welcome | Premium Registration ✨</title>
-                    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&display=swap" rel="stylesheet">
+                    <title>✦ NEXUS ACCEPTED ✦ Elite Access</title>
+                    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
                     <style>
                         * { margin: 0; padding: 0; box-sizing: border-box; }
                         body {
-                            background: radial-gradient(ellipse at 30% 40%, #0A1120, #03060F);
-                            font-family: 'Inter', sans-serif;
+                            background: radial-gradient(circle at 30% 10%, #020617, #000000);
+                            font-family: 'Inter', 'Space Grotesk', sans-serif;
                             min-height: 100vh;
                             display: flex;
                             align-items: center;
                             justify-content: center;
-                            padding: 2rem;
+                            padding: 1.5rem;
                         }
-                        .glow-card {
-                            max-width: 560px;
+                        .success-galaxy {
+                            max-width: 600px;
                             width: 100%;
-                            background: rgba(15, 25, 45, 0.85);
-                            backdrop-filter: blur(12px);
-                            border-radius: 2.5rem;
-                            border: 1px solid rgba(110, 160, 230, 0.3);
-                            box-shadow: 0 25px 40px -18px black, 0 0 0 1px rgba(255,255,255,0.05) inset;
+                            background: rgba(6, 18, 32, 0.85);
+                            backdrop-filter: blur(20px);
+                            border-radius: 2.8rem;
+                            border: 1px solid rgba(0, 210, 255, 0.5);
+                            box-shadow: 0 30px 50px -20px black, 0 0 0 1px rgba(100, 200, 255, 0.2) inset;
                             overflow: hidden;
+                            animation: slideUp 0.55s ease-out;
                             text-align: center;
-                            animation: fadeUp 0.6s ease-out;
                         }
-                        @keyframes fadeUp {
-                            from { opacity: 0; transform: translateY(30px); }
+                        @keyframes slideUp {
+                            from { opacity: 0; transform: translateY(35px); }
                             to { opacity: 1; transform: translateY(0); }
                         }
-                        .celeb-header {
-                            background: linear-gradient(110deg, #152C4E, #0B1A32);
-                            padding: 2rem 1rem 1.6rem;
+                        .prestige-header {
+                            background: linear-gradient(125deg, #0a2a44, #021523);
+                            padding: 2rem 1rem 1.5rem;
+                            border-bottom: 1px solid #1f6eb0;
                         }
-                        .icon-circle {
-                            background: #2F6EB3;
-                            width: 80px;
-                            height: 80px;
+                        .icon-orb {
+                            background: #0a4b7a;
+                            width: 90px;
+                            height: 90px;
                             border-radius: 50%;
                             display: flex;
-                            margin: -50px auto 10px;
+                            margin: -55px auto 10px;
                             align-items: center;
                             justify-content: center;
-                            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-                            border: 2px solid rgba(255,245,200,0.6);
+                            box-shadow: 0 0 20px #00ccff;
+                            border: 2px solid #b5f0ff;
                         }
-                        .icon-circle i {
-                            font-size: 3.2rem;
-                            color: #FFE8B6;
+                        .icon-orb i {
+                            font-size: 3.4rem;
+                            color: #FFE6A7;
+                            filter: drop-shadow(0 0 5px gold);
                         }
-                        .celeb-header h1 {
+                        .prestige-header h1 {
                             font-size: 1.9rem;
                             font-weight: 800;
-                            background: linear-gradient(135deg, #FFFFFF, #B9E2FF);
+                            background: linear-gradient(135deg, #FFFFFF, #acf0ff, #6e9eff);
                             background-clip: text;
                             -webkit-background-clip: text;
                             color: transparent;
-                            margin-top: 0.7rem;
+                            margin-top: 0.5rem;
+                            letter-spacing: -0.3px;
                         }
-                        .content-body {
+                        .success-content {
                             padding: 2rem 2rem 2.2rem;
                         }
-                        .greeting {
+                        .greeting-hero {
                             font-size: 1.7rem;
                             font-weight: 700;
-                            color: #F2F6FF;
-                            margin-bottom: 0.5rem;
+                            color: #edf6ff;
                         }
-                        .greeting i {
-                            color: #FFC857;
+                        .greeting-hero i {
+                            color: #ffd966;
+                            margin: 0 8px;
                         }
-                        .user-welcome {
+                        .member-name {
                             font-size: 1rem;
-                            color: #B8D1FC;
-                            border-bottom: 1px dashed #2F5B8E;
+                            font-weight: 500;
+                            background: rgba(0, 160, 255, 0.2);
                             display: inline-block;
-                            padding-bottom: 5px;
-                            margin-bottom: 1.5rem;
+                            padding: 5px 20px;
+                            border-radius: 40px;
+                            margin-top: 10px;
+                            backdrop-filter: blur(4px);
+                            border: 0.5px solid #39ffdd;
+                            color: #c6eaff;
                         }
-                        .ref-premium {
-                            background: rgba(0, 20, 45, 0.7);
+                        .code-vault {
+                            background: rgba(0, 10, 22, 0.8);
+                            margin: 1.5rem 0;
                             border-radius: 2rem;
                             padding: 1rem;
-                            margin: 1.2rem 0;
-                            border: 1px solid rgba(90, 150, 220, 0.5);
+                            border: 1px solid #3979b0;
                         }
-                        .ref-label {
+                        .code-label {
                             font-size: 0.7rem;
                             text-transform: uppercase;
-                            letter-spacing: 2px;
-                            color: #96BEF0;
+                            letter-spacing: 3px;
+                            color: #63c0ff;
                         }
-                        .random-code {
-                            font-size: 2.4rem;
+                        .display-code {
+                            font-size: 2.5rem;
                             font-weight: 800;
-                            font-family: monospace;
-                            letter-spacing: 4px;
-                            background: #07162B;
+                            font-family: 'Space Grotesk', monospace;
+                            letter-spacing: 5px;
+                            background: #02182c;
                             display: inline-block;
                             padding: 0.3rem 1.2rem;
-                            border-radius: 2rem;
-                            color: #FFE4A3;
-                            border: 1px solid #567FB3;
-                            margin-top: 10px;
+                            border-radius: 2.5rem;
+                            color: #FFEEB5;
+                            border: 1px solid #00e0ff;
+                            margin-top: 12px;
                             word-break: break-all;
+                            box-shadow: 0 0 12px rgba(0, 200, 255, 0.3);
                         }
-                        .tiny-note {
+                        .info-footer {
                             font-size: 0.7rem;
-                            color: #8BA7D5;
-                            margin-top: 1rem;
+                            color: #92bbee;
+                            margin: 1rem 0 0;
                         }
-                        .close-button {
-                            background: linear-gradient(95deg, #2B558C, #123456);
+                        .close-premium {
+                            background: linear-gradient(95deg, #1a4870, #0c2e4a);
                             border: none;
                             padding: 0.7rem 2rem;
                             border-radius: 3rem;
                             color: white;
                             font-weight: bold;
                             font-size: 0.9rem;
-                            margin-top: 1rem;
+                            margin-top: 0.8rem;
                             cursor: pointer;
-                            transition: 0.2s;
                             display: inline-flex;
                             gap: 10px;
-                            align-items: center;
+                            transition: 0.2s;
                         }
-                        .close-button:hover {
-                            background: #3B6EAA;
-                            transform: scale(0.98);
+                        .close-premium:hover {
+                            background: #2d6d9e;
+                            transform: scale(0.97);
                         }
-                        footer {
-                            font-size: 0.65rem;
-                            background: #030E1C;
-                            padding: 0.8rem;
-                            color: #6E8DB0;
+                        .badge-footer {
+                            background: #030f1c;
+                            padding: 0.9rem;
+                            font-size: 0.6rem;
+                            color: #6e9bc2;
                         }
                     </style>
                 </head>
                 <body>
-                    <div class="glow-card">
-                        <div class="celeb-header">
-                            <div class="icon-circle"><i class="fas fa-trophy"></i></div>
-                            <h1><i class="fas fa-check-circle"></i> REGISTRATION SUCCESS</h1>
+                    <div class="success-galaxy">
+                        <div class="prestige-header">
+                            <div class="icon-orb"><i class="fas fa-user-astronaut"></i></div>
+                            <h1><i class="fas fa-check-double"></i> ACTIVATION COMPLETE</h1>
                         </div>
-                        <div class="content-body">
-                            <div class="greeting"><i class="fas fa-crown"></i> CONGRATULATIONS!</div>
-                            <div class="user-welcome">✨ ${escapeHTML(displayName)} ✨</div>
-                            <div class="ref-premium">
-                                <div class="ref-label"><i class="fas fa-gift"></i> YOUR EXCLUSIVE REFERRAL CODE</div>
-                                <div class="random-code">${escapeHTML(randomCode)}</div>
-                                <div class="tiny-note"><i class="fas fa-chart-line"></i> Share this code & earn premium rewards • Example: 67H5G75</div>
+                        <div class="success-content">
+                            <div class="greeting-hero">
+                                <i class="fas fa-star-of-life"></i> WELCOME, PIONEER <i class="fas fa-crown"></i>
                             </div>
-                            <button class="close-button" onclick="window.close()"><i class="fas fa-door-open"></i> Close Dashboard</button>
+                            <div class="member-name">
+                                <i class="fas fa-id-card"></i> ${escapeHTML(displayName)}
+                            </div>
+                            <div class="code-vault">
+                                <div class="code-label"><i class="fas fa-link"></i> YOUR UNIQUE REFERRAL GATEWAY</div>
+                                <div class="display-code">${escapeHTML(randomCode)}</div>
+                                <div class="info-footer"><i class="fas fa-chart-simple"></i> Share & earn premium rewards • example: 7X9K3M2</div>
+                            </div>
+                            <button class="close-premium" onclick="window.close()"><i class="fas fa-arrow-right-to-bracket"></i> DASHBOARD EXIT</button>
                         </div>
-                        <footer>© Elite Access • Secure member benefits</footer>
+                        <div class="badge-footer">✦ NEXUS SECURE TIER • HYPERLEDGER READY ✦</div>
                     </div>
                 </body>
                 </html>
@@ -589,7 +683,7 @@
             return true;
         }
 
-        // main registration handler
+        // main handler: validation, check all fields, mobile, password, generate referral and open success
         function handleRegistration() {
             // get trimmed values
             const firstName = firstNameInput.value.trim();
@@ -599,7 +693,7 @@
             const password = passwordInput.value.trim();
             const referralNumber = referralInput.value.trim();
 
-            // fields validation aggregate
+            // prepare all field checks
             const allFields = [
                 { value: firstName, element: firstNameInput, name: 'First name' },
                 { value: middleName, element: middleNameInput, name: 'Middle name' },
@@ -624,42 +718,42 @@
             if (emptyFields.length > 0) {
                 highlightFields(emptyElements);
                 shakeCard();
-                alert("The following fields cannot be empty:\n• " + emptyFields.join("\n• "));
+                alert("❌ ACCESS DENIED • The following fields cannot be empty:\n➜ " + emptyFields.join("\n➜ "));
                 return false;
             }
 
-            // mobile validation strict
+            // mobile validation (digits only)
             const mobileDigits = mobile.replace(/\s/g, '');
             if (!/^[0-9]{7,15}$/.test(mobileDigits)) {
                 mobileInput.classList.add('error-highlight');
                 shakeCard();
-                alert("❌ Invalid Mobile Number!\nPlease enter a valid numeric mobile number (7 to 15 digits). No letters or special characters.");
+                alert("📱 INVALID MOBILE INPUT!\nPlease enter a valid numeric mobile number (7 to 15 digits). No letters or special characters.");
                 return false;
             }
 
-            // password length at least 4 characters
+            // password length >= 4
             if (password.length < 4) {
                 passwordInput.classList.add('error-highlight');
                 shakeCard();
-                alert("🔒 Password too weak! Must be at least 4 characters.");
+                alert("🔐 WEAK CREDENTIALS! Password must be at least 4 characters.");
                 return false;
             }
 
             // generate fresh random referral code
             const newReferralCode = generateRandomReferralCode();
 
-            // open new congratulations page
+            // open new premium congrats page
             const opened = openCongratsPage(firstName, lastName, newReferralCode);
             if (!opened) {
-                // fallback alert
-                alert("🎉 Registration validated!\nYour new unique referral code: " + newReferralCode);
+                alert("✨ REGISTRATION SUCCESSFUL ✨\nYour unique referral code: " + newReferralCode);
             }
             return true;
         }
 
+        // attach event
         registerButton.addEventListener('click', handleRegistration);
 
-        // remove error highlight while typing to improve UX
+        // remove error highlight on typing for smoother experience
         const allInputList = [firstNameInput, middleNameInput, lastNameInput, mobileInput, passwordInput, referralInput];
         allInputList.forEach(input => {
             if (input) {
