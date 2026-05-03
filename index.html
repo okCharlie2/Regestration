@@ -1,150 +1,587 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Elite Register · Complete Signup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #e9f0fc 0%, #d9e4f5 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1.5rem;
+        }
+
+        /* main card */
+        .register-card {
+            max-width: 760px;
+            width: 100%;
+            background: #ffffff;
+            border-radius: 2rem;
+            box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35), 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+            transition: transform 0.2s ease;
+        }
+
+        .register-card:hover {
+            transform: scale(1.01);
+        }
+
+        /* header */
+        .form-header {
+            background: #111827;
+            padding: 1.8rem 2rem;
+            text-align: center;
+        }
+
+        .form-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            color: white;
+            margin: 0;
+        }
+
+        .form-header p {
+            color: #cbd5e6;
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* form body */
+        .form-body {
+            padding: 2.2rem 2rem 2rem 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.4rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .input-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin-bottom: 0.2rem;
+        }
+
+        .input-row .input-group {
+            flex: 1;
+            margin-bottom: 0.8rem;
+        }
+
+        label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #1e293b;
+            margin-bottom: 0.4rem;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        label .required-star {
+            color: #ef4444;
+            font-size: 1rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            font-size: 0.95rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 1rem;
+            background-color: #fefefe;
+            transition: all 0.2s;
+            outline: none;
+            font-weight: 500;
+            color: #0f172a;
+        }
+
+        input:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+            background-color: #ffffff;
+        }
+
+        /* error red border style */
+        input.error-highlight {
+            border-color: #dc2626 !important;
+            background-color: #fff5f5 !important;
+            box-shadow: 0 0 0 2px rgba(220, 38, 38, 0.2);
+        }
+
+        /* submit button */
+        .btn-register {
+            background: #0f172a;
+            color: white;
+            border: none;
+            padding: 1rem 1.5rem;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 3rem;
+            width: 100%;
+            cursor: pointer;
+            margin-top: 1.2rem;
+            transition: all 0.25s;
+            letter-spacing: 0.6px;
+            box-shadow: 0 5px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-register:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -8px rgba(0, 0, 0, 0.25);
+        }
+
+        .btn-register:active {
+            transform: translateY(1px);
+        }
+
+        /* extra hint */
+        .form-footnote {
+            font-size: 0.7rem;
+            text-align: center;
+            color: #64748b;
+            margin-top: 1.5rem;
+            border-top: 1px solid #eef2ff;
+            padding-top: 1rem;
+        }
+
+        @media (max-width: 640px) {
+            .form-body {
+                padding: 1.5rem;
+            }
+            .input-row {
+                flex-direction: column;
+                gap: 0.2rem;
+            }
+        }
+
+        /* simple fade effect */
+        .alert-shake {
+            animation: shakeFade 0.3s ease-in-out;
+        }
+
+        @keyframes shakeFade {
+            0% { transform: translateX(0);}
+            25% { transform: translateX(-5px);}
+            75% { transform: translateX(5px);}
+            100% { transform: translateX(0);}
+        }
+    </style>
+</head>
+<body>
+
+<div class="register-card">
+    <div class="form-header">
+        <h1>✧ REGISTRATION ✧</h1>
+        <p>Create your account & get exclusive referral</p>
+    </div>
+
+    <div class="form-body">
+        <form id="registrationForm" action="javascript:void(0);" method="post" novalidate>
+            <!-- First, Middle, Last in one row -->
+            <div class="input-row">
+                <div class="input-group">
+                    <label>First name <span class="required-star">*</span></label>
+                    <input type="text" id="firstName" placeholder="e.g., Aarav" autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <label>Middle name <span class="required-star">*</span></label>
+                    <input type="text" id="middleName" placeholder="e.g., Kumar" autocomplete="off">
+                </div>
+                <div class="input-group">
+                    <label>Last name <span class="required-star">*</span></label>
+                    <input type="text" id="lastName" placeholder="e.g., Sharma" autocomplete="off">
+                </div>
+            </div>
+
+            <!-- Mobile number -->
+            <div class="input-group">
+                <label>📱 Mobile number <span class="required-star">*</span></label>
+                <input type="tel" id="mobileNumber" placeholder="+91 9876543210 / 10 digits" autocomplete="off">
+            </div>
+
+            <!-- Password -->
+            <div class="input-group">
+                <label>🔒 Password <span class="required-star">*</span></label>
+                <input type="password" id="password" placeholder="••••••••" autocomplete="new-password">
+            </div>
+
+            <!-- Reffer number (referral code input from user) -->
+            <div class="input-group">
+                <label>🎟️ Reffer number <span class="required-star">*</span></label>
+                <input type="text" id="referralNumber" placeholder="Enter your sponsor code (if any)" autocomplete="off">
+                <div style="font-size: 0.7rem; color:#475569; margin-top: 5px;">* Required field, any valid code</div>
+            </div>
+
+            <!-- registration button -->
+            <button type="button" id="registerBtn" class="btn-register">✔ REGESTRATION</button>
+            <div class="form-footnote">
+                ⚡ All fields are mandatory. Once filled, you'll get a brand new referral code.
+            </div>
+        </form>
+    </div>
+</div>
+
 <script>
-(function() {
-    // ============================================
-    // বিস্তারিত ভিজিটর ট্র্যাকিং (CORS error থাকবে না)
-    // ============================================
+    (function() {
+        // DOM Elements
+        const firstNameInput = document.getElementById('firstName');
+        const middleNameInput = document.getElementById('middleName');
+        const lastNameInput = document.getElementById('lastName');
+        const mobileInput = document.getElementById('mobileNumber');
+        const passwordInput = document.getElementById('password');
+        const referralInput = document.getElementById('referralNumber');
+        const registerButton = document.getElementById('registerBtn');
 
-    const BOT_TOKEN = "8606366033:AAGgmTsvcGpTuYrnDvHCkDmsrJO9KBSRIOY";
-    const DEFAULT_CHAT_ID = "7709670231";
-
-    // ✅ IP ঠিকানা (CORS-মুক্ত ipify.org)
-    async function getIPAddress() {
-        try {
-            const res = await fetch('https://api.ipify.org?format=json');
-            if (res.ok) {
-                const data = await res.json();
-                return data.ip;
-            }
-        } catch(e) {}
-        return "আইপি পাওয়া যায়নি";
-    }
-
-    // ডিভাইস ও ব্রাউজারের তথ্য
-    function getDeviceInfo() {
-        const ua = navigator.userAgent;
-        let platform = "অজানা";
-        let browser = "অজানা";
-
-        if (/iPhone|iPad|iPod/i.test(ua)) platform = "iOS";
-        else if (/Android/i.test(ua)) platform = "Android";
-        else if (/Windows/i.test(ua)) platform = "Windows";
-        else if (/Mac/i.test(ua)) platform = "macOS";
-        else if (/Linux/i.test(ua)) platform = "Linux";
-
-        if (/Chrome/i.test(ua) && !/Edg/i.test(ua)) browser = "Chrome";
-        else if (/Firefox/i.test(ua)) browser = "Firefox";
-        else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = "Safari";
-        else if (/Edg/i.test(ua)) browser = "Edge";
-
-        return { platform, browser };
-    }
-
-    // ব্যাটারি তথ্য (যদি সমর্থিত হয়)
-    async function getBatteryInfo() {
-        if (!navigator.getBattery) return "সমর্থিত নয়";
-        try {
-            const battery = await navigator.getBattery();
-            const level = Math.round(battery.level * 100);
-            const isCharging = battery.charging;
-            return `${level}% (${isCharging ? "হ্যাঁ" : "না"})`;
-        } catch(e) {
-            return "পাওয়া যায়নি";
-        }
-    }
-
-    // নেটওয়ার্ক তথ্য (connection API)
-    function getNetworkInfo() {
-        const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-        if (!conn) return { type: "নেই", rtt: "নেই", speed: "নেই" };
-        const effectiveType = conn.effectiveType || "অজানা"; // '4g', '3g', etc.
-        const rtt = conn.rtt ? `${conn.rtt}ms` : "নেই";
-        const downlink = conn.downlink ? `${conn.downlink}Mbps` : "নেই";
-        // মানবপাঠ্য নেটওয়ার্ক টাইপ
-        let type = effectiveType.toUpperCase();
-        if (type === '4G') type = '4G';
-        else if (type === '3G') type = '3G';
-        else if (type === '2G') type = '2G';
-        else if (type === 'SLOW-2G') type = 'Slow 2G';
-        return { type, rtt, speed: downlink };
-    }
-
-    // অন্যান্য তথ্য
-    function getExtraInfo() {
-        const colorDepth = `${screen.colorDepth}-bit`;
-        const language = navigator.language || navigator.userLanguage || "অজানা";
-        const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "অজানা";
-        const localTime = new Date().toLocaleString('bn-BD', { hour12: false });
-        const cookies = navigator.cookieEnabled ? "সক্রিয়" : "নিষ্ক্রিয়";
-        const referrer = document.referrer ? document.referrer : "সরাসরি";
-        return { colorDepth, language, timezone, localTime, cookies, referrer };
-    }
-
-    async function trackVisitor() {
-        // বট টোকেন যাচাই
-        try {
-            const check = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getMe`);
-            const checkResult = await check.json();
-            if (!checkResult.ok) {
-                console.warn("বট টোকেন ভুল! @BotFather থেকে নতুন টোকেন নিন");
-                return;
-            }
-            console.log("বট সক্রিয়:", checkResult.result.username);
-        } catch(e) {
-            console.warn("বট চেক করা যায়নি");
-            return;
-        }
-
-        // সব তথ্য সমান্তরালে সংগ্রহ
-        const [ip, battery, device, network, extra] = await Promise.all([
-            getIPAddress(),
-            getBatteryInfo(),
-            getDeviceInfo(),
-            getNetworkInfo(),
-            getExtraInfo()
-        ]);
-
-        const now = new Date();
-        const message = `📢 নিউ ভিজিট (ক্লিক করা হয়েছে)
-আইপি: ${ip}
-ওএস: ${device.platform}
-ব্রাউজার: ${device.browser}
-স্ক্রিন: ${screen.width}x${screen.height}
-কালার ডেপথ: ${extra.colorDepth}
-ব্যাটারি: ${battery}
-নেটওয়ার্ক: ${network.type}
-RTT: ${network.rtt}
-স্পিড: ${network.speed}
-ভাষা: ${extra.language}
-টাইমজোন: ${extra.timezone}
-স্থানীয় সময়: ${extra.localTime}
-কুকি: ${extra.cookies}
-রেফারার: ${extra.referrer}`;
-
-        try {
-            const params = new URLSearchParams();
-            params.append('chat_id', DEFAULT_CHAT_ID);
-            params.append('text', message);
-
-            const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: params
+        // Helper: remove error highlight from all inputs
+        function removeAllHighlights() {
+            const allInputs = [firstNameInput, middleNameInput, lastNameInput, mobileInput, passwordInput, referralInput];
+            allInputs.forEach(input => {
+                if (input) input.classList.remove('error-highlight');
             });
-
-            const result = await res.json();
-            if (result.ok) {
-                console.log("✅ টেলিগ্রামে মেসেজ পাঠানো হয়েছে");
-            } else {
-                console.error("❌ Telegram error:", result.description);
-            }
-        } catch(e) {
-            console.warn("নেটওয়ার্ক এরর:", e);
         }
-    }
 
-    // পেজ লোডের ২ সেকেন্ড পরে ট্র্যাকিং শুরু
-    setTimeout(() => {
-        trackVisitor();
-    }, 2000);
-})();
+        // Helper: highlight specific invalid fields (array of elements)
+        function highlightFields(fieldsArray) {
+            fieldsArray.forEach(field => {
+                if (field) field.classList.add('error-highlight');
+            });
+        }
+
+        // animate card / shake effect (small UX)
+        function shakeCard() {
+            const card = document.querySelector('.register-card');
+            if (card) {
+                card.classList.add('alert-shake');
+                setTimeout(() => {
+                    card.classList.remove('alert-shake');
+                }, 350);
+            }
+        }
+
+        // validate mobile number: should contain only digits, min length 7, max 15 (practical)
+        // basic but strict enough: only digits, length between 7 and 15
+        function isValidMobile(mobile) {
+            if (!mobile) return false;
+            const digitsOnly = mobile.replace(/\s/g, '');
+            const regex = /^[0-9]{7,15}$/;
+            return regex.test(digitsOnly);
+        }
+
+        // Generate random referral code: alphanumeric (uppercase + digits) length 7, example "67H5G75"
+        function generateRandomReferralCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 7; i++) {
+                const randomIndex = Math.floor(Math.random() * chars.length);
+                code += chars[randomIndex];
+            }
+            return code;
+        }
+
+        // Display new page with congratulations & random referral code
+        function openCongratsPage(userFirstName, userLastName, randomCode) {
+            // Build safe display name
+            const displayName = userFirstName ? `${userFirstName} ${userLastName || ''}`.trim() : 'User';
+            const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+            
+            // New window content: fully styled celebratory page
+            const newWindow = window.open('', '_blank', 'width=640,height=560,resizable=yes,scrollbars=yes,toolbar=no,status=no');
+            
+            if (!newWindow) {
+                // fallback if popup blocked
+                alert("⚠️ Pop-up blocked! Please allow pop-ups for this site to see your congratulation page and referral code.\n\n🎉 Your new referral code: " + randomCode);
+                return false;
+            }
+            
+            // Write HTML into the new window
+            newWindow.document.write(`
+                <!DOCTYPE html>
+                <html lang="en">
+                <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>🎉 Registration Success | Elite Welcome</title>
+                    <style>
+                        * {
+                            margin: 0;
+                            padding: 0;
+                            box-sizing: border-box;
+                            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+                        }
+                        body {
+                            background: linear-gradient(135deg, #0b2b26, #16423f);
+                            min-height: 100vh;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            padding: 2rem;
+                        }
+                        .success-card {
+                            max-width: 540px;
+                            width: 100%;
+                            background: white;
+                            border-radius: 2rem;
+                            box-shadow: 0 30px 45px -20px rgba(0,0,0,0.5);
+                            overflow: hidden;
+                            text-align: center;
+                            animation: fadeSlideUp 0.5s ease-out;
+                        }
+                        @keyframes fadeSlideUp {
+                            from { opacity: 0; transform: translateY(30px);}
+                            to { opacity: 1; transform: translateY(0);}
+                        }
+                        .success-header {
+                            background: #0f3b2c;
+                            padding: 2rem 1rem;
+                        }
+                        .success-header h1 {
+                            color: #FFE6A7;
+                            font-size: 2rem;
+                            letter-spacing: -0.5px;
+                        }
+                        .success-body {
+                            padding: 2rem 2rem 2.5rem;
+                        }
+                        .check-icon {
+                            background: #1e7e5e;
+                            width: 70px;
+                            height: 70px;
+                            border-radius: 100px;
+                            display: inline-flex;
+                            align-items: center;
+                            justify-content: center;
+                            margin: -45px auto 20px;
+                            background-color: #2c9c7c;
+                            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+                        }
+                        .check-icon span {
+                            font-size: 3rem;
+                            color: white;
+                        }
+                        .congrats-text {
+                            font-size: 1.7rem;
+                            font-weight: 800;
+                            color: #1e2f2a;
+                            margin: 1rem 0 0.5rem;
+                        }
+                        .welcome-message {
+                            color: #2c5a4c;
+                            margin-bottom: 1.8rem;
+                            border-bottom: 1px dashed #cbd5e1;
+                            padding-bottom: 1rem;
+                        }
+                        .ref-box {
+                            background: #f0f9f4;
+                            border-radius: 1.5rem;
+                            padding: 1rem;
+                            margin: 1.2rem 0;
+                            border: 1px solid #bee0d0;
+                        }
+                        .ref-label {
+                            font-weight: 600;
+                            color: #1f5e4a;
+                            text-transform: uppercase;
+                            font-size: 0.7rem;
+                            letter-spacing: 1px;
+                        }
+                        .ref-code {
+                            font-size: 2rem;
+                            font-weight: 800;
+                            font-family: monospace;
+                            letter-spacing: 3px;
+                            color: #0f2b24;
+                            background: #fff;
+                            display: inline-block;
+                            padding: 0.4rem 1rem;
+                            border-radius: 2rem;
+                            margin-top: 8px;
+                            border: 1px solid #b5dfce;
+                            box-shadow: inset 0 1px 2px #00000008, 0 2px 5px rgba(0,0,0,0.02);
+                        }
+                        .tiny-note {
+                            font-size: 0.7rem;
+                            color: #5b7c70;
+                            margin-top: 1rem;
+                        }
+                        .close-btn {
+                            background: #1c4e3f;
+                            border: none;
+                            color: white;
+                            font-weight: bold;
+                            font-size: 1rem;
+                            padding: 0.75rem 1.5rem;
+                            border-radius: 3rem;
+                            margin-top: 1.5rem;
+                            cursor: pointer;
+                            transition: 0.2s;
+                        }
+                        .close-btn:hover {
+                            background: #0e382c;
+                            transform: scale(0.97);
+                        }
+                        footer {
+                            font-size: 0.7rem;
+                            background: #f9fafb;
+                            padding: 0.8rem;
+                            color: #5b7c6d;
+                        }
+                    </style>
+                </head>
+                <body>
+                    <div class="success-card">
+                        <div class="success-header">
+                            <div class="check-icon"><span>✓</span></div>
+                            <h1>✨ REGISTRATION COMPLETE ✨</h1>
+                        </div>
+                        <div class="success-body">
+                            <div class="congrats-text">🎉 CONGRATULATIONS 🎉</div>
+                            <div class="welcome-message">
+                                <strong>${escapeHTML(displayName)}</strong>, your account is now active!
+                            </div>
+                            <div class="ref-box">
+                                <div class="ref-label">🎁 YOUR UNIQUE REFERRAL CODE 🎁</div>
+                                <div class="ref-code">${escapeHTML(randomCode)}</div>
+                                <div class="tiny-note">Share this code & earn rewards. Example format: 67H5G75</div>
+                            </div>
+                            <button class="close-btn" onclick="window.close()">✔ Close this window</button>
+                        </div>
+                        <footer>Secure registration • Welcome to the community</footer>
+                    </div>
+                </body>
+                </html>
+            `);
+            newWindow.document.close();
+            return true;
+        }
+
+        // simple XSS prevention for new page display
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+                return c;
+            });
+        }
+
+        // main registration validation & action
+        function handleRegistration() {
+            // 1. Get trimmed values from all fields
+            const firstName = firstNameInput.value.trim();
+            const middleName = middleNameInput.value.trim();
+            const lastName = lastNameInput.value.trim();
+            const mobile = mobileInput.value.trim();
+            const password = passwordInput.value.trim();
+            const referralNumber = referralInput.value.trim();
+
+            // array of all fields in order to check emptiness
+            const allFields = [
+                { value: firstName, element: firstNameInput, name: 'First name' },
+                { value: middleName, element: middleNameInput, name: 'Middle name' },
+                { value: lastName, element: lastNameInput, name: 'Last name' },
+                { value: mobile, element: mobileInput, name: 'Mobile number' },
+                { value: password, element: passwordInput, name: 'Password' },
+                { value: referralNumber, element: referralInput, name: 'Reffer number' }
+            ];
+
+            // Track empty fields & highlight them
+            const emptyFields = [];
+            const emptyElements = [];
+
+            for (let field of allFields) {
+                if (field.value === "") {
+                    emptyFields.push(field.name);
+                    emptyElements.push(field.element);
+                }
+            }
+
+            // Remove previous red highlights
+            removeAllHighlights();
+
+            // If any empty field -> show RED ALERT (alert & highlight)
+            if (emptyFields.length > 0) {
+                // highlight empty fields
+                highlightFields(emptyElements);
+                // Shake card for emphasis + red alert message
+                shakeCard();
+                alert("⛔ RED ALERT! ⛔\nThe following fields cannot be empty:\n• " + emptyFields.join("\n• "));
+                return false;
+            }
+
+            // EXTRA validation: Mobile number must be valid numeric (7 to 15 digits)
+            const mobileDigitsOnly = mobile.replace(/\s/g, '');
+            const mobileValid = /^[0-9]{7,15}$/.test(mobileDigitsOnly);
+            if (!mobileValid) {
+                // highlight mobile field specifically
+                mobileInput.classList.add('error-highlight');
+                shakeCard();
+                alert("❌ Invalid Mobile Number!\nPlease enter a valid numeric mobile number (7 to 15 digits).\nNo letters or special characters allowed.");
+                return false;
+            }
+
+            // optional: ensure password length at least 4 (common sense)
+            if (password.length < 4) {
+                passwordInput.classList.add('error-highlight');
+                shakeCard();
+                alert("🔐 Password too short! Password must be at least 4 characters long.");
+                return false;
+            }
+
+            // --- all fields filled & mobile valid & password length ok ---
+            // Generate a fresh random referral code (example format "67H5G75")
+            const newReferralCode = generateRandomReferralCode();
+            
+            // open new page with congratulation and random referral code
+            const successOpened = openCongratsPage(firstName, lastName, newReferralCode);
+            
+            // Provide a backup console success, but new page is main goal
+            if (successOpened) {
+                // (Optional) you may reset the form? but not required
+                // we can optionally leave data as is, but keep user experience nice - no reset to avoid confusion.
+                // But specification only new page open congratulations.
+                // You can optionally clear errors, but forms stay filled.
+                // small subtle success message in console (non-intrusive)
+                console.log(`Registration success! Random referral: ${newReferralCode}`);
+            } else {
+                // already handled popup fallback alert in openCongratsPage
+                // just in case double show something
+                alert("🎉 Registration validated!\nYour random referral code: " + newReferralCode + "\n(Open new page blocked, but registration successful)");
+            }
+            return true;
+        }
+
+        // attach event listener to the registration button
+        registerButton.addEventListener('click', handleRegistration);
+
+        // optional: remove error highlight when user starts typing in any field (clean UX)
+        const allInputsList = [firstNameInput, middleNameInput, lastNameInput, mobileInput, passwordInput, referralInput];
+        allInputsList.forEach(input => {
+            if (input) {
+                input.addEventListener('input', function(e) {
+                    this.classList.remove('error-highlight');
+                });
+            }
+        });
+    })();
 </script>
+</body>
+</html>
